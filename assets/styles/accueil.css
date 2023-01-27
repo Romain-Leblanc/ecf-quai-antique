@@ -59,6 +59,9 @@
     margin: 8px 0 8px 0;
     word-break: break-word;
 }
+.formule {
+    color: #c5ac89;
+}
 .prix-menu {
     margin-top: 20px !important;
     font-size: 20px;

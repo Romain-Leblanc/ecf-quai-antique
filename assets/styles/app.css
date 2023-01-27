@@ -179,7 +179,9 @@ footer > div {
 .titre-presentation > span {
     color: #ce1212;
 }
-
+.input-50 {
+    width: 50% !important;
+}
 /* RESPONSIVE */
 @media screen and (min-width: 1300px) {
     .div-container {

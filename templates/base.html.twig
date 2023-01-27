@@ -30,26 +30,33 @@
                 <div id="menu-liens" class="navbar-nav d-flex flex-column gap-3">
                     <a class="nav-item nav-link active" href="#"><span>Accueil</span></a>
                     <a class="nav-item nav-link" href="#"><span>La carte</span></a>
-                    <a class="nav-item nav-link" href="#"><span>Se connecter</span></a>
                     <div class="mt-2 d-flex justify-content-center align-items-center">
                         <a class="btn-reserver" href="#">Réserver</a>
                     </div>
-                </div>
-                <hr class="mt-4">
-                <div id="menu-compte">
-                    <div class="d-flex flex-column justify-content-center align-items-center text-center mb-2">
-                        <p class="fst-italic mb-1">Compte client :</p>
-                        <p class="mb-0 text-dark">LEBLANC Romain</p>
-                    </div>
-                    <div class="d-flex gap-5 justify-content-center">
-                        <button class="btn btn-primary">Modifier</button>
-                        <button class="btn btn-danger">Déconnexion</button>
+                    <hr>
+                    <div class="m-0 d-flex justify-content-center">
+                        <a href="{{ path('app_connexion') }}" class="btn btn-primary">Se connecter</a>
                     </div>
                 </div>
-                <hr class="mt-4">
-                <div id="menu-compte-lien">
-                    <a class="nav-item nav-link text-dark fw-normal" href="#">Accès administrateur</a>
-                </div>
+                {% if app.user %}
+                    <hr class="mt-4">
+                    <div id="menu-compte">
+                        <div class="d-flex flex-column justify-content-center align-items-center text-center mb-2">
+                            <p class="fst-italic mb-1">Compte {% if is_granted('ROLE_ADMIN') %}admin{% else %}client{% endif %} :</p>
+                            <p class="mb-0 text-dark">{{ nomPrenom(app.user.nom, app.user.prenom) }}</p>
+                        </div>
+                        <div class="d-flex gap-5 justify-content-center">
+                            <button class="btn btn-primary">Modifier</button>
+                            <button href="{{ path('app_deconnexion') }}" class="btn btn-danger">Déconnexion</button>
+                        </div>
+                    </div>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <hr class="mt-4">
+                        <div id="menu-compte-lien">
+                            <a class="nav-item nav-link text-dark fw-normal" href="#">Accès administrateur</a>
+                        </div>
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
     </nav>

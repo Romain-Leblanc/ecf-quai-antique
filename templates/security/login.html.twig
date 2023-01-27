@@ -1,0 +1,42 @@
+{% extends 'base_connexion_inscription.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+    {{ form_start(formConnexion) }}
+        <div class="d-flex flex-column align-items-center gap-4">
+            <img src="{{ asset('images/logo.png') }}" alt="logo" class="logo-form">
+            <h3>Connexion</h3>
+        </div>
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% elseif app.flashes('utilisateur') is defined %}
+            {% for notice in app.flashes('utilisateur') %}
+                <div class="alert alert-danger " role="alert">{{ notice|nl2br }}</div>
+            {% endfor %}
+        {% endif %}
+        {{ form_start(formConnexion) }}
+        <div class="row mt-4 justify-content-center align-items-center">
+            <div class="col-lg-4 text-center">
+                {{ form_label(formConnexion.email) }}
+            </div>
+            <div class="col-lg-6 text-center">
+                {{ form_widget(formConnexion.email) }}
+            </div>
+        </div>
+        <div class="row mt-4 justify-content-center align-items-center">
+            <div class="col-lg-4 text-center">
+                {{ form_label(formConnexion.plainPassword) }}
+            </div>
+            <div class="col-lg-6 text-center">
+                {{ form_widget(formConnexion.plainPassword) }}
+            </div>
+        </div>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <div class="row margintop-5 justify-content-center">
+            <div class="col-lg-4 text-center">
+                <button type="submit" class="btn btn-primary" title="Se connecter">Se connecter</button>
+            </div>
+        </div>
+    {{ form_end(formConnexion) }}
+{% endblock %}

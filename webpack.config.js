@@ -23,6 +23,7 @@ Encore
     .addEntry('app', './assets/app.js')
     .addStyleEntry('admin', './assets/styles/admin.css')
     .addStyleEntry('accueil', './assets/styles/accueil.css')
+    .addStyleEntry('connexion_inscription', './assets/styles/connexion-inscription.css')
     .addStyleEntry('carte', './assets/styles/carte.css')
     .addStyleEntry('reservation', './assets/styles/reservation.css')
     .addStyleEntry('bootstrap', './assets/bootstrap-5.2.2/css/bootstrap.min.css')

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %} - Quai Antique</title>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('bootstrap') }}
+            {{ encore_entry_link_tags('fontawesome') }}
+            {{ encore_entry_link_tags('connexion_inscription') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body class="bg-form">
+        <div class="div-container-form flex-1">
+            {% block body %}{% endblock %}
+        </div>
+    </body>
+</html>

@@ -1,0 +1,31 @@
+.bg-form {
+    background-color: lightgrey;
+}
+.flex-1 {
+    flex: 1;
+}
+.margintop-5 {
+    margin-top: 2em;
+}
+.logo-form {
+    width: 290px !important;
+    height: 60px !important;
+}
+.input-50 {
+    width: 50% !important;
+}
+@media screen and (min-width: 1299px) {
+    .div-container-form {
+        margin: 3% 30% 3% 30%;
+    }
+}
+@media screen and (max-width: 1299px) {
+    .div-container-form {
+        margin: 3% 15% 3% 15%;
+    }
+}
+@media screen and (max-width: 992px) {
+    .div-container-form input {
+        text-align: center;
+    }
+}
