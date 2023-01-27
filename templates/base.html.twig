@@ -1,19 +1,77 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} - Quai Antique</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('bootstrap') }}
+        {{ encore_entry_link_tags('fontawesome') }}
+        {{ encore_entry_link_tags('app') }}
+        {{ encore_entry_link_tags('accueil') }}
+    {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-dark p-content">
+        <a href="#"><img src="{{ asset('images/logo.png') }}" alt="logo_header" id="logo_header" class="logo rounded float-left" title="Logo du Quai Antique" /></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title fst-italic fw-normal" id="offcanvasLabel">Menu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <hr>
+                <div id="menu-liens" class="navbar-nav d-flex flex-column gap-3">
+                    <a class="nav-item nav-link active" href="#"><span>Accueil</span></a>
+                    <a class="nav-item nav-link" href="#"><span>La carte</span></a>
+                    <a class="nav-item nav-link" href="#"><span>Se connecter</span></a>
+                    <div class="mt-2 d-flex justify-content-center align-items-center">
+                        <a class="btn-reserver" href="#">Réserver</a>
+                    </div>
+                </div>
+                <hr class="mt-4">
+                <div id="menu-compte">
+                    <div class="d-flex flex-column justify-content-center align-items-center text-center mb-2">
+                        <p class="fst-italic mb-1">Compte client :</p>
+                        <p class="mb-0 text-dark">LEBLANC Romain</p>
+                    </div>
+                    <div class="d-flex gap-5 justify-content-center">
+                        <button class="btn btn-primary">Modifier</button>
+                        <button class="btn btn-danger">Déconnexion</button>
+                    </div>
+                </div>
+                <hr class="mt-4">
+                <div id="menu-compte-lien">
+                    <a class="nav-item nav-link text-dark fw-normal" href="#">Accès administrateur</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="div-container flex-1 my-4">
         {% block body %}{% endblock %}
-    </body>
+    </section>
+    <footer class="p-content justify-content-between align-items-start">
+        <div class="col mb-3 d-flex flex-column gap-3">
+            <img src="{{ asset('images/logo.png') }}" alt="logo_footer" id="logo_footer" class="logo rounded float-left" title="Logo du Quai Antique" />
+            <span id="localisation"><i class="fa-solid fa-location-dot"></i> Chambéry</span>
+        </div>
+        <div id="horaires-footer" class="col-lg-5 col-md-5 col-x mb-3">
+            <div class="text-center">
+                <div id="entete-horaires" class="d-flex flex-column justify-content-center">
+                    <h3 class="mb-0">Nos</h3>
+                    <h5 class="fst-italic">Horaires d'ouverture</h5>
+                </div>
+            </div>
+            <div class="w-100 p-2 mt-3">
+                {{ render(controller('App\\Controller\\AccueilController::horaire')) }}
+            </div>
+        </div>
+    </footer>
+</body>
 </html>

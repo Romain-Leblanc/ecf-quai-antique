@@ -10,3 +10,11 @@ import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
+
+// Importations des fichiers jQuery et bootstrap
+import './scripts/jquery.js';
+import './bootstrap-5.2.2/js/bootstrap.min.js';
+
+// Permet d'utiliser la variable $ de jquery dans les fichiers JS
+const $ = require('jquery');
+global.$ = global.jQuery = $;

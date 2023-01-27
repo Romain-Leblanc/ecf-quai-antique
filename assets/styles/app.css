@@ -1,3 +1,275 @@
+html {
+    height: 100%;
+}
 body {
-    background-color: lightgray;
+    font-family: "Hind Madurai" !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+.btn {
+    color: white !important;
+}
+nav {
+    background-color: #c5ac89;
+    box-shadow: 0 1px 5px #c5ac89;
+}
+nav .navbar-toggler {
+    border-color: white;
+}
+.navbar-nav {
+    flex-wrap: wrap;
+}
+nav .nav-link {
+    word-break: break-word;
+    font-size: 18px;
+    color: grey !important;
+    border-bottom: 1px solid transparent;
+    font-weight: bold;
+    padding: 0;
+    transition: all 0.2s ease-in-out 0s;
+}
+nav #menu-liens > .nav-link {
+    text-transform: capitalize;
+}
+nav .nav-link.active {
+    border-left: 1px solid #ce1212;
+    padding-left: 8px;
+    color: black !important;
+}
+nav .nav-link:hover:not(.active) {
+    color: black !important;
+    border-left: 1px solid #ce1212;
+    padding-left: 8px;
+    transition: all 0.2s ease-in-out 0s;
+}
+.btn-reserver {
+    transition: 0.3s !important;
+    word-break: break-word;
+    font-size: 15px;
+    font-weight: bold;
+    font-style: italic;
+    color: white;
+    background: #ce1212;
+    padding: 8px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.btn-reserver:hover {
+    background: rgba(165, 15, 15, 0.62) !important;
+    color: rgba(255, 255, 255, 0.68) !important;
+}
+.offcanvas {
+    background-color: white;
+    color: black;
+}
+.offcanvas-header {
+    word-break: break-word;
+}
+.offcanvas-title {
+    font-weight: bold;
+}
+.offcanvas-body {
+    padding-top: 0;
+}
+.offcanvas-body > * {
+    margin-top: 10px;
+    padding-top: 5px;
+}
+.offcanvas-body > #menu-compte {
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 10px 0 10px;
+    gap: 15px;
+    word-break: break-word;
+}
+.offcanvas-body > #menu-compte > * {
+    width: 100% !important;
+    word-break: break-word;
+}
+.offcanvas-body > #menu-compte-lien {
+    align-items: center;
+    justify-content: center;
+    word-break: break-word;
+}
+.offcanvas-body > #menu-compte-lien a {
+    word-break: break-word;
+    text-align: center;
+    font-weight: bold;
+    width: 100% !important;
+    padding: 5px;
+    border: 1px solid #BE1E2D;
+    color: black !important;
+}
+hr {
+    opacity: 1;
+    color: darkgrey;
+}
+.logo {
+    width: 145px !important;
+    height: 30px !important;
+}
+.flex-1 {
+    flex: 1;
+}
+.margintop-5 {
+    margin-top: 2em;
+}
+textarea {
+    resize: none;
+}
+footer {
+    background-color: lightgrey;
+    box-shadow: 0 1px 5px lightgrey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+footer > div {
+    margin: 15px 0;
+}
+#horaires-footer {
+    background-color: white;
+    border: thick double #c5ac89;
+    padding: 15px;
+}
+#entete-horaires {
+    text-align: center;
+}
+#entete-horaires {
+    border-bottom: 1px solid #ce1212;
+}
+#entete-horaires > h3 {
+    font-family: 'Verdana';
+    color: #ce1212;
+}
+#entete-horaires > h5 {
+    font-style: italic;
+}
+.jour-horaires, .heures {
+    margin-bottom: 0;
+}
+.jour-horaires {
+    font-weight: bold;
+}
+.heures {
+    text-align: end;
+    color: #be0f0f;
+}
+#localisation {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 8px;
+}
+#localisation > .fa-solid {
+    color: black !important;
+}
+.titre-presentation {
+    text-align: center;
+    width: 100%;
+    border: 2px solid #c5ac89;
+    padding: 5px;
+    border-radius: 5px;
+}
+.titre-presentation > span {
+    color: #ce1212;
+}
+
+/* RESPONSIVE */
+@media screen and (min-width: 1300px) {
+    .div-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 0 15% 0 15%;
+    }
+    .p-content {
+        padding: 0.5em 15% 0.5em 15% !important;
+    }
+}
+@media screen and (max-width: 767px) {
+    .offcanvas {
+        width: 60% !important;
+    }
+}
+@media screen and (min-width: 992px) and (max-width: 1299px) {
+    .div-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 0 10% 0 10%;
+    }
+    .p-content {
+        padding: 0.5em 10% 0.5em 10% !important;
+    }
+    footer > div {
+        width: 50%;
+    }
+}
+@media screen and (max-width: 991px) {
+    nav .nav-item {
+        flex-direction: column;
+    }
+}
+@media screen and (min-width: 882px) and (max-width: 991px){
+    .div-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 0 10% 0 10%;
+    }
+    .p-content {
+        padding: 0.5em 10% 0.5em 10% !important;
+    }
+    #horaires-footer {
+        width: 50%;
+    }
+}
+@media screen and (max-width: 881px) {
+    .div-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 0 3% 0 3%;
+    }
+    .p-content {
+        padding: 0.5em 3% 0.5em 3% !important;
+    }
+    .div-contenu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        text-align: center;
+        gap: 1em;
+    }
+    footer {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+    #horaires-footer {
+        width: 75%;
+    }
+}
+@media screen and (max-width: 550px) {
+    .offcanvas {
+        width: 75% !important;
+    }
+    .div-container > .row {
+        flex-direction: column;
+    }
+    .div-container > .row > .col {
+        width: 100%;
+    }
+    #horaires-footer {
+        width: 100%;
+    }
 }
