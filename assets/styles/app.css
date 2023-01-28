@@ -160,13 +160,18 @@ footer > div {
     text-align: end;
     color: #be0f0f;
 }
-#localisation {
+#localisation, #telephone {
     display: flex;
     justify-content: start;
     align-items: center;
-    gap: 8px;
 }
-#localisation > .fa-solid {
+#localisation {
+    gap: 12px;
+}
+#telephone {
+    gap: 7px;
+}
+#localisation > .fa-solid, #telephone > .fa-solid {
     color: black !important;
 }
 .titre-presentation {
