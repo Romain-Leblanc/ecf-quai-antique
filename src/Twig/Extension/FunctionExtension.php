@@ -13,11 +13,18 @@ class FunctionExtension extends AbstractExtension
     {
         return [
             new TwigFunction('nomPrenom', [$this, 'nomPrenom']),
+            new TwigFunction('heureMinute', [$this, 'heureMinute']),
         ];
     }
 
     // Retourne le nom et prénom
     function nomPrenom(string $nom, string $prenom){
         return mb_strtoupper($nom)." ".ucfirst($prenom);
+    }
+
+    // Retourne l'heure et minutes
+    function heureMinute(\DateTime $heureOuverture, \DateTime $heureFermeture){
+        $format = 'H:i';
+        return $heureOuverture->format($format)." - ".$heureFermeture->format($format);
     }
 }

@@ -1,9 +1,19 @@
-<div class="d-flex justify-content-between py-1">
-    <div class="w-50">
-        <p class="jour-horaires">Lundi :</p>
+{# Boucle sur chaque jour #}
+{% for unJour in jours %}
+    <div class="d-flex justify-content-between py-1">
+        <div class="w-50">
+            <p class="jour-horaires">{{ unJour.getLibelle }} :</p>
+        </div>
+        <div class="w-50">
+            {# Si le tableau des horaires de ce jour n'est pas vide, on boucle dessus et affiche les horaires #}
+            {% if unJour.getHoraires is not empty %}
+                {% for unHoraire in unJour.getHoraires %}
+                    <p class="heures">{{ heureMinute(unHoraire.getHeureOuverture, unHoraire.getHeureFermeture) }}</p>
+                {% endfor %}
+            {% else %}
+                {# Sinon on affiche 'Fermé' pour préciser que ce jour, le restaurant n'est pas ouvert #}
+                <p class="heures">Fermé</p>
+            {% endif %}
+        </div>
     </div>
-    <div class="w-50">
-        <p class="heures">11:00 - 14:00</p>
-        <p class="heures">Fermé</p>
-    </div>
-</div>
+{% endfor %}
