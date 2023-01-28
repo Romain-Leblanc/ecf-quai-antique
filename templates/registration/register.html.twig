@@ -1,0 +1,72 @@
+{% extends 'base_connexion_inscription.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    {{ form_start(formInscription) }}
+    <div class="mb-2 d-flex flex-column align-items-center gap-4">
+        <img src="{{ asset('images/logo.png') }}" alt="logo" class="logo-form">
+        <h3>Inscription</h3>
+    </div>
+    {% if error is defined %}
+        {% for uneErreur in error %}
+            <div class="alert alert-danger" role="alert">{{ uneErreur.message|nl2br }}</div>
+        {% endfor %}
+    {% elseif app.flashes('inscription') is defined %}
+        {% for notice in app.flashes('inscription') %}
+            <div class="alert alert-danger" role="alert">{{ notice|nl2br }}</div>
+        {% endfor %}
+    {% endif %}
+    {{ form_start(formInscription) }}
+    <div class="row mt-4 justify-content-center align-items-center">
+        <div class="col-lg-4 text-center">
+            {{ form_label(formInscription.nom) }}
+        </div>
+        <div class="col-lg-6 text-center">
+            {{ form_widget(formInscription.nom) }}
+        </div>
+    </div>
+    <div class="row mt-4 justify-content-center align-items-center">
+        <div class="col-lg-4 text-center">
+            {{ form_label(formInscription.prenom) }}
+        </div>
+        <div class="col-lg-6 text-center">
+            {{ form_widget(formInscription.prenom) }}
+        </div>
+    </div>
+    <div class="row mt-4 justify-content-center align-items-start">
+        <div class="col-lg-4 text-center">
+            {{ form_label(formInscription.email) }}
+        </div>
+        <div class="col-lg-6 text-center">
+            {{ form_widget(formInscription.email) }}
+            {{ form_help(formInscription.email) }}
+        </div>
+    </div>
+    <div class="row mt-4 justify-content-center align-items-center">
+        <div class="col-lg-4 text-center">
+            {{ form_label(formInscription.plainPassword) }}
+        </div>
+        <div class="col-lg-6 text-center">
+            {{ form_widget(formInscription.plainPassword) }}
+        </div>
+    </div>
+    <div class="row mt-4 justify-content-center align-items-center">
+        <div class="col-lg-4 text-center">
+            {{ form_label(formInscription.nombre_convives) }}
+        </div>
+        <div class="col-lg-6 text-center">
+            {{ form_widget(formInscription.nombre_convives) }}
+        </div>
+    </div>
+    <div class="w-100 gap-2 mt-4 d-flex justify-content-center align-items-center">
+        {{ form_label(formInscription.agreeTerms) }}
+        {{ form_widget(formInscription.agreeTerms) }}
+    </div>
+    <div class="row margintop-5 justify-content-center">
+        <div class="col-lg-4 text-center">
+            <button type="submit" class="btn btn-primary" title="S'inscrire">S'inscrire</button>
+        </div>
+    </div>
+    {{ form_end(formInscription) }}
+{% endblock %}

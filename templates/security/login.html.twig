@@ -3,33 +3,35 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
-    {{ form_start(formConnexion) }}
+    <form method="post">
         <div class="d-flex flex-column align-items-center gap-4">
             <img src="{{ asset('images/logo.png') }}" alt="logo" class="logo-form">
             <h3>Connexion</h3>
         </div>
         {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% elseif app.flashes('utilisateur') is defined %}
+            <div class="alert alert-danger" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% elseif app.flashes('utilisateur') is defined or app.flashes('inscription') is defined %}
             {% for notice in app.flashes('utilisateur') %}
                 <div class="alert alert-danger " role="alert">{{ notice|nl2br }}</div>
             {% endfor %}
+            {% for notice in app.flashes('inscription') %}
+                <div class="alert alert-success " role="alert">{{ notice|nl2br }}</div>
+            {% endfor %}
         {% endif %}
-        {{ form_start(formConnexion) }}
         <div class="row mt-4 justify-content-center align-items-center">
             <div class="col-lg-4 text-center">
-                {{ form_label(formConnexion.email) }}
+                <label for="email" class="col-form-label">Email :</label>
             </div>
             <div class="col-lg-6 text-center">
-                {{ form_widget(formConnexion.email) }}
+                <input placeholder="Requis" type="email" class="form-control" name="email" id="email" required>
             </div>
         </div>
         <div class="row mt-4 justify-content-center align-items-center">
             <div class="col-lg-4 text-center">
-                {{ form_label(formConnexion.plainPassword) }}
+                <label for="motdepasse" class="col-form-label">Mot de passe :</label>
             </div>
             <div class="col-lg-6 text-center">
-                {{ form_widget(formConnexion.plainPassword) }}
+                <input placeholder="Requis" type="password" class="form-control" name="password" id="motdepasse" autocomplete="new-password" required />
             </div>
         </div>
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -38,5 +40,9 @@
                 <button type="submit" class="btn btn-primary" title="Se connecter">Se connecter</button>
             </div>
         </div>
-    {{ form_end(formConnexion) }}
+        <div class="mt-5 gap-2 d-flex justify-content-end">
+            <span>Pas encore inscrit ?</span>
+            <a href="{{ path('app_inscription') }}">S'inscrire</a>
+        </div>
+    </form>
 {% endblock %}

@@ -9,5 +9,10 @@ Sunday: Dimanche
 
 # Formulaire connexion/inscription
 'Email :': 'Email :'
+"Vérifiez bien l'accès à cet adresse mail.": "Vérifiez bien l'accès à cet adresse mail."
 'Mot de passe :': 'Mot de passe :'
 'Requis': 'Requis'
+'Nom :': 'Nom :'
+'Prénom :': 'Prénom :'
+'Nombre convives :': 'Nombre convives :'
+'Acceptez nos conditions :': 'Acceptez nos conditions :'

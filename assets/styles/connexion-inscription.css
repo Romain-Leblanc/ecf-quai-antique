@@ -8,24 +8,33 @@
     margin-top: 2em;
 }
 .logo-form {
-    width: 290px !important;
-    height: 60px !important;
+    width: 275px !important;
+    height: 55px !important;
 }
 .input-50 {
     width: 50% !important;
 }
-@media screen and (min-width: 1299px) {
+input {
+    font-size: 15px !important;
+}
+.help-text, .alert {
+    font-size: 14px !important;
+}
+@media screen and (min-width: 1300px) {
     .div-container-form {
-        margin: 3% 30% 3% 30%;
+        margin: 2% 25% 2% 25%;
     }
 }
 @media screen and (max-width: 1299px) {
     .div-container-form {
-        margin: 3% 15% 3% 15%;
+        margin: 2% 15% 2% 15%;
     }
 }
 @media screen and (max-width: 992px) {
     .div-container-form input {
         text-align: center;
+    }
+    .input-50 {
+        margin: 0 25%;
     }
 }
