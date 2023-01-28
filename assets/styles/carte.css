@@ -1,0 +1,42 @@
+.titre-global:before {
+    content: "\00007E\000020";
+}
+.titre-global:after {
+    content: "\000020\00007E";
+}
+.titre-carte {
+    color: #ce1212;
+    font-weight: bold;
+}
+.description-carte {
+    color: #8d8d9b;
+}
+.prix-carte {
+    font-style: italic;
+    color: #c5ac89;
+    font-weight: bold;
+    font-size: 18px;
+}
+.carte {
+    padding: 15px;
+    box-shadow: 0 0 20px lightgrey;
+}
+.titre-global {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+@media screen and (min-width: 992px) {
+    .carte {
+        width: 75%;
+    }
+}
+@media screen and (min-width: 881px) and (max-width: 991px){
+    .carte {
+        width: 85%;
+    }
+}
+@media screen and (max-width: 881px) {
+    .carte {
+        width: 90%;
+    }
+}

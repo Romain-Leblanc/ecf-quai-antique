@@ -8,6 +8,7 @@
         {{ encore_entry_link_tags('fontawesome') }}
         {{ encore_entry_link_tags('app') }}
         {{ encore_entry_link_tags('accueil') }}
+        {{ encore_entry_link_tags('carte') }}
     {% endblock %}
 
     {% block javascripts %}
@@ -16,7 +17,7 @@
 </head>
 <body>
     <nav class="navbar navbar-dark p-content">
-        <a href="#"><img src="{{ asset('images/logo.png') }}" alt="logo_header" id="logo_header" class="logo rounded float-left" title="Logo du Quai Antique" /></a>
+        <a href="{{ path('restaurant_accueil') }}"><img src="{{ asset('images/logo.png') }}" alt="logo_header" id="logo_header" class="logo rounded float-left" title="Logo du Quai Antique" /></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -28,8 +29,13 @@
             <div class="offcanvas-body">
                 <hr>
                 <div id="menu-liens" class="navbar-nav d-flex flex-column gap-3">
-                    <a class="nav-item nav-link active" href="#"><span>Accueil</span></a>
-                    <a class="nav-item nav-link" href="#"><span>La carte</span></a>
+                    {% if 'accueil' in app.request.get('_route') %}
+                        <a class="nav-item nav-link active" href="{{ path('restaurant_accueil') }}"><span>Accueil</span></a>
+                        <a class="nav-item nav-link" href="{{ path('restaurant_carte') }}"><span>La carte</span></a>
+                    {% else %}
+                        <a class="nav-item nav-link" href="{{ path('restaurant_accueil') }}"><span>Accueil</span></a>
+                        <a class="nav-item nav-link active" href="{{ path('restaurant_carte') }}"><span>La carte</span></a>
+                    {% endif %}
                     <div class="mt-2 d-flex justify-content-center align-items-center">
                         <a class="btn-reserver" href="#">Réserver</a>
                     </div>
@@ -69,7 +75,7 @@
         <div class="col mb-3 d-flex flex-column gap-3">
             <img src="{{ asset('images/logo.png') }}" alt="logo_footer" id="logo_footer" class="logo rounded float-left" title="Logo du Quai Antique" />
             <span id="localisation"><i class="fa-solid fa-location-dot"></i> Chambéry</span>
-            <span id="telephone"><i class="fa-solid fa-phone"></i> 02.41.03.04.05</span>
+            <span id="telephone"><i class="fa-solid fa-phone"></i> 01.02.03.04.05</span>
         </div>
         <div id="horaires-footer" class="col-lg-5 col-md-5 col-x mb-3">
             <div class="text-center">

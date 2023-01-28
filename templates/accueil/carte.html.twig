@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Notre carte{% endblock %}
+
+{% block body %}
+    <div class="d-flex flex-column justify-content-center align-items-center mb-5 gap-5">
+        <h2 class="titre-presentation m-0">Notre <span>carte</span></h2>
+        {# Si le tableau des catégories de plats n'est pas vide #}
+        {% if categories is not empty %}
+            <div class="carte gap-2">
+                <div class="d-flex flex-column justify-content-center align-items-center gap-4">
+                    {# Boucle sur chaque catégorie #}
+                    {% for uneCategorie in categories %}
+                        <h4 class="titre-global my-4">{{ uneCategorie.getLibelle|upper }}</h4>
+                        <div class="text-center gap-4">
+                            {# Si la collection des plats liés à cette categorie n'est pas vide #}
+                            {% if uneCategorie.getPlats is not empty %}
+                                {# Boucle sur chaque plat et affiche son contenu #}
+                                {% for unPlat in uneCategorie.getPlats %}
+                                    <h5 class="titre-carte">{{ unPlat.getTitrePlat|capitalize }}</h5>
+                                    <p class="description-carte">{{ unPlat.getDescriptionPlat|capitalize }}</p>
+                                    <p class="prix-carte">{{ montantEuros(unPlat.getPrixPlat) }}</p>
+                                {% endfor %}
+                            {% else %}
+                                {# Sinon on affiche un message qu'aucun plat n'est lié à cette catégorie #}
+                                <div class="w-100 d-flex flex-row justify-content-center"><p class="fst-italic">Aucun plat à la carte</p></div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            {# Sinon on affiche un message si aucune catégorie de plat existe #}
+            <div class="w-100 d-flex flex-row justify-content-center"><p class="fst-italic">Aucune catégorie de plat(s) à la carte</p></div>
+        {% endif %}
+    </div>
+{% endblock %}

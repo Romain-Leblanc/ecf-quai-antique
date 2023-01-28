@@ -1,33 +1,46 @@
-<div id="myCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" aria-label="Slide 1" class="active" aria-current="true"></button>
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    </div>
-    <div class="carousel-inner">
-        <div class="carousel-item active" data-bs-interval="3000">
-            <img src="{{ asset('images/plats/plat-1.jpg') }}" alt="plat-1">
-            <div class="container">
-                <div class="carousel-caption text-center">
-                    <h2 class="mb-4">Dessert au chocolat</h2>
-                </div>
-            </div>
+{# Si le tableau des photos de plat n'est pas vide #}
+{% if galerie is not empty %}
+    <div id="myCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            {# Définit la 1ère photo 'active' #}
+            {% set parDefaut = true %}
+            {# Ajout des indicateurs pour le carrousel #}
+            {% set nombre = 0 %}
+            {% for uneImage in galerie %}
+                {# Si la photo souhaite être affichée mais qu'elle n'est pas trouvée, elle ne sera pas affichée #}
+                {% if fichierExiste(asset('images/plats/' ~ uneImage.getLienPhoto)) and uneImage.isAfficherPhoto == true %}
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{ nombre }}" aria-label="Slide {% set nombre = nombre + 1 %}{{ nombre }}"{% if parDefaut == true %} class="active" aria-current="true"{% set parDefaut = false %}{% endif %}></button>
+                {% endif %}
+            {% endfor %}
         </div>
-        <div class="carousel-item" data-bs-interval="3000">
-            <img src="{{ asset('images/plats/plat-2.jpeg') }}" alt="plat-2">
-            <div class="container">
-                <div class="carousel-caption text-center">
-                    <h2 class="mb-4">Jambon fumé</h2>
-                </div>
-            </div>
+        <div class="carousel-inner">
+            {# Définit la 1ère photo 'active' #}
+            {% set parDefaut = true %}
+            {# Ajout des photos pour le carrousel #}
+            {% for uneImage in galerie %}
+                {% if fichierExiste(asset('images/plats/' ~ uneImage.getLienPhoto)) and uneImage.isAfficherPhoto == true %}
+                    <div class="carousel-item{% if parDefaut == true %} active{% set parDefaut = false %}{% endif %}" data-bs-interval="3000">
+                        <img src="{{ asset('images/plats/' ~ uneImage.getLienPhoto) }}" alt="plat-{{ uneImage.id }}">
+                        <div class="container">
+                            <div class="carousel-caption text-center">
+                                <h2 class="mb-4">{{ uneImage.getTitrePlat }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
+        {# Ajout des boutons de navigation du carrousel #}
+        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+            <span class="visually-hidden">Précédent</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+            <span class="visually-hidden">Suivant</span>
+        </button>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-        <span class="visually-hidden">Précédent</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-        <span class="visually-hidden">Suivant</span>
-    </button>
-</div>
-{#<div class="w-100 d-flex flex-row justify-content-center"><p class="fst-italic">Aucune image disponible</p></div>#}
+{% else %}
+    {# Sinon on affiche un message si aucune photo de plat souhaite être affichée #}
+    <div class="w-100 d-flex flex-row justify-content-center"><p class="fst-italic">Aucune image disponible</p></div>
+{% endif %}
