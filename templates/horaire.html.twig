@@ -11,7 +11,7 @@
                     <p class="heures">{{ heureMinute(unHoraire.getHeureOuverture, unHoraire.getHeureFermeture) }}</p>
                 {% endfor %}
             {% else %}
-                {# Sinon on affiche 'Fermé' pour préciser que ce jour, le restaurant n'est pas ouvert #}
+                {# Sinon on affiche 'Fermé' pour préciser que le restaurant n'est pas ouvert ce jour #}
                 <p class="heures">Fermé</p>
             {% endif %}
         </div>
