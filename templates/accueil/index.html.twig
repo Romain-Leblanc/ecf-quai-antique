@@ -3,12 +3,15 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
+    {% for notice in app.flashes('reservation') %}
+        <div class="alert alert-success" role="alert">{{ notice|nl2br }}</div>
+    {% endfor %}
     <div class="d-flex flex-column justify-content-center align-items-center mb-3">
         <h2 class="titre-presentation m-0">Nos <span>réalisations</span></h2>
     </div>
     {{ render(controller('App\\Controller\\AccueilController::galerie')) }}
     <div class="d-flex flex-column justify-content-center align-items-center mb-5 gap-4">
-        <a class="btn-reserver mb-4" href="#">Réserver</a>
+        <a class="btn-reserver mb-4" href="{{ path('restaurant_reservation') }}">Réserver</a>
         <h2 class="titre-presentation m-0">Nos <span>menus</span></h2>
         {{ render(controller('App\\Controller\\AccueilController::menu')) }}
     </div>

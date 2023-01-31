@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservation{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('reservation_creneau') }}
+{% endblock %}
+
+{% block body %}
+    {{ form_start(formReservation) }}
+    <div class="d-flex flex-column justify-content-center align-items-center mb-5">
+        {% if errors is defined %}
+            {% for error in errors %}
+                <div class="alert alert-danger" role="alert">{{ error.message|nl2br }}</div>
+            {% endfor %}
+        {% endif %}
+        <div class="d-flex justify-content-center align-items-center div-bouton-radio flex-wrap">
+            <div class="d-flex flex-column w-100">
+                <div class="div-row gap-3">
+                    <div class="div-select-line">
+                        {% if app.user %}
+                            {{ form_label(formReservation.nombre_convives_utilisateur) }}
+                            {{ form_widget(formReservation.nombre_convives_utilisateur) }}
+                        {% else %}
+                            {{ form_label(formReservation.fk_visiteur.children.nombre_convives) }}
+                            {{ form_widget(formReservation.fk_visiteur.children.nombre_convives) }}
+                        {% endif %}
+                    </div>
+                    <div class="div-select-line">
+                        {{ form_label(formReservation.date) }}
+                        {{ form_widget(formReservation.date) }}
+                    </div>
+                </div>
+                <div id="champ-creneaux">
+                    <div class="entete-choix">
+                        <h5 class="fw-bold pb-1">Créneaux :</h5>
+                        <p class="nombre-couvert-restant text-end cacher" id="nombre-couvert">
+                            <span id="nombre-couverts-disponible" class="fst-italic"></span>&nbsp;<span class="fst-italic">couverts disponible</span>
+                        </p>
+                    </div>
+                    {# Les heures de créneaux seront affiché dans le widget du champ "heure" du formulaire (requis) #}
+                    {{ form_widget(formReservation.heure) }}
+                    {# Message supprimé au changement de la date du créneau choisi #}
+                    <div id="message-creneaux" class="w-100 d-flex flex-row justify-content-center"><p class="fst-italic text-center">Veuillez sélectionner une date pour afficher les créneaux correspondants.</p></div>
+                </div>
+                {% if app.user %}
+                    <div class="w-100 gap-2 d-flex flex-column justify-content-center align-items-center">
+                        <p class="text-center fw-bold">Vos informations sont récupérées automatiquement.</p>
+                    </div>
+                {% else %}
+                    <div class="div-responsive mb-3">
+                        {{ form_label(formReservation.fk_visiteur.children.nom) }}
+                        <div class="col-lg-5 col-md-6 col-sm-8">
+                            {{ form_widget(formReservation.fk_visiteur.children.nom) }}
+                        </div>
+                    </div>
+                    <div class="div-responsive mb-3">
+                        {{ form_label(formReservation.fk_visiteur.children.prenom) }}
+                        <div class="col-lg-5 col-md-6 col-sm-8">
+                            {{ form_widget(formReservation.fk_visiteur.children.prenom) }}
+                        </div>
+                    </div>
+                    <div class="div-responsive label-email mb-3">
+                        {{ form_label(formReservation.fk_visiteur.children.email) }}
+                        <div class="col-lg-5 col-md-6 col-sm-8">
+                            {{ form_widget(formReservation.fk_visiteur.children.email) }}
+                            {{ form_help(formReservation.fk_visiteur.children.email) }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="w-100 d-flex flex-row justify-content-center">
+            <button id="btn-submit" type="submit" class="btn btn-success" disabled>Valider</button>
+        </div>
+    </div>
+    {{ form_end(formReservation) }}
+{% endblock %}

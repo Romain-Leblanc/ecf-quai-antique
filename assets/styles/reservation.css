@@ -1,0 +1,220 @@
+.div-bouton-radio legend {
+    font-size: 18px;
+}
+.div-bouton-radio .bouton-radio > * {
+    padding: 8px 20px;
+    word-break: break-word;
+    border-radius: 4px;
+}
+.bouton-radio > input[type="radio"]:focus {
+    box-shadow: 0 0 0 0.25em rgb(0 255 20) !important;
+}
+.div-bouton-radio .bouton-radio > input[type="radio"]:checked + label {
+    color: white !important;
+    background-color: red !important;
+    border: none;
+}
+.div-bouton-radio .bouton-radio > label {
+    color: white !important;
+    background-color: darkred !important;
+    border: none;
+}
+.div-bouton-radio .bouton-radio > label:hover, .div-bouton-radio .bouton-radio > input[type="radio"]:hover {
+    color: white !important;
+    background-color: red !important;
+    border: none;
+}
+.entete-choix {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.entete-choix > * {
+    margin: 0 !important;
+    width: 50%;
+}
+.nombre-couvert-restant > span:first-child {
+    font-size: 16px;
+    color: white;
+    background-color: black;
+    padding: 8px
+}
+.label-select-line, .div-select-line > select {
+    text-align: center;
+}
+.div-select-line {
+    display: flex;
+    align-items: center;
+}
+.div-row {
+    display: flex;
+    width: 100%;
+}
+.div-responsive {
+    display: flex;
+    margin: 0 !important;
+}
+.cacher {
+    display: none;
+}
+.afficher {
+    display: block;
+}
+@media screen and (min-width: 1450px) {
+    .div-row {
+        flex-direction: row;
+    }
+    .div-select-line {
+        width: 50%;
+        flex-direction: row;
+    }
+    .div-responsive {
+        gap: 2em;
+    }
+}
+@media screen and (min-width: 1300px) and (max-width: 1449px) {
+    .div-row {
+        flex-direction: row;
+    }
+    .div-select-line {
+        width: 50%;
+        flex-direction: row;
+    }
+}
+@media screen and (min-width: 1300px) {
+    .div-bouton-radio {
+        width: 75% !important;
+    }
+    .div-bouton-radio > div {
+        gap: 3em;
+    }
+    .div-responsive {
+        gap: 2em;
+    }
+    .div-responsive > label {
+        text-align: end;
+    }
+    .input-date {
+        width: 50% !important;
+    }
+}
+@media screen and (min-width: 992px) and (max-width: 1299px) {
+    .div-bouton-radio {
+        width: 85% !important;
+    }
+    .div-bouton-radio > div {
+        gap: 3em;
+    }
+    .div-row {
+        flex-direction: row;
+    }
+    .div-select-line {
+        width: 50%;
+        flex-direction: row;
+    }
+    .div-responsive {
+        gap: 2em;
+    }
+    .div-responsive > label {
+        text-align: end;
+    }
+    .input-date {
+        width: 50% !important;
+    }
+}
+@media screen and (min-width: 882px) and (max-width: 991px){
+    .div-bouton-radio {
+        width: 95% !important;
+    }
+    .div-bouton-radio > div {
+        gap: 3em;
+    }
+    .div-row {
+        flex-direction: row;
+    }
+    .div-select-line {
+        width: 50%;
+        flex-direction: row;
+    }
+    .div-responsive {
+        flex-direction: row;
+        justify-content: center;
+        gap: 2em;
+    }
+    .div-responsive > label {
+        text-align: end;
+    }
+    .input-date {
+        width: 50% !important;
+    }
+}
+@media screen and (max-width: 881px) {
+    .div-bouton-radio {
+        width: 100% !important;
+    }
+    .div-bouton-radio > div {
+        gap: 1em;
+    }
+    .div-row {
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+    }
+    .div-select-line {
+        flex-direction: row;
+    }
+    .div-select-line > input[type="date"] {
+        text-align: center;
+    }
+}
+@media screen and (min-width: 800px) and (max-width: 881px) {
+    .label-select-line, .div-select-line {
+        width: 50%;
+    }
+    .div-responsive {
+        flex-direction: column;
+        justify-content: center;
+        gap: 0;
+        align-items: center;
+    }
+    .div-responsive > label {
+        text-align: center;
+    }
+}
+@media screen and (max-width: 799px) {
+    .div-row {
+        width: 100%;
+        justify-content: center;
+    }
+    .div-select-line {
+        flex-direction: column;
+        width: 50%;
+    }
+    .input-date {
+        width: 100% !important;
+    }
+}
+@media screen and (min-width: 576px)and (max-width: 799px) {
+    .div-responsive {
+        flex-direction: column;
+        justify-content: center;
+        gap: 0;
+        width: 100%;
+        align-items: center;
+    }
+    .div-responsive > label, .div-responsive > div > p {
+        text-align: center;
+    }
+}
+@media screen and (max-width: 575px) {
+    .div-responsive {
+        flex-direction: column;
+        justify-content: center;
+        gap: 0;
+        width: 100%;
+    }
+    .div-responsive > label, .div-responsive > div > p {
+        text-align: center;
+    }
+}

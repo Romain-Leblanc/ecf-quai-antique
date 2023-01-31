@@ -11,8 +11,7 @@ use Twig\TwigFunction;
 class FunctionExtension extends AbstractExtension
 {
     public function __construct(private KernelInterface $kernel)
-    {
-    }
+    {}
 
     public function getFunctions(): array
     {
@@ -21,6 +20,7 @@ class FunctionExtension extends AbstractExtension
             new TwigFunction('heureMinute', [$this, 'heureMinute']),
             new TwigFunction('montantEuros', [$this, 'montantEuros']),
             new TwigFunction('fichierExiste', [$this, 'fichierExiste']),
+            new TwigFunction('menuActif', [$this, 'menuActif']),
         ];
     }
 
@@ -44,5 +44,19 @@ class FunctionExtension extends AbstractExtension
     function fichierExiste(string $path)
     {
         return is_file(realpath($this->kernel->getProjectDir() . '/public/'.$path));
+    }
+
+    // Met en surbrillance le lien du menu qui correspond au slug de la route actuelle
+    function menuActif(string $page, string $menu) {
+        // Scinde la chaine en tableau avec un "_" pour récupérer le nom précis de la route
+        // (par exemple "accueil" pour "restaurant_accueil")
+        $explode = explode("_", $page)[1];
+        // Si la valeur à l'index un fait partie du tableau, on met en surbrillance
+        if($explode === $menu) {
+            return "active";
+        }
+        else {
+            return "";
+        }
     }
 }

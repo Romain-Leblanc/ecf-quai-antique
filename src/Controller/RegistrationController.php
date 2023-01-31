@@ -44,7 +44,7 @@ class RegistrationController extends AbstractController
             $email = (new TemplatedEmail())
                 ->from(Address::create('Quai Antique <leblanc.romain.quai.antique@gmail.com>'))
                 ->to($unUtilisateur->getEmail())
-                // Définit le logo en tant que
+                // Passe le logo au template
                 ->embed(fopen($chemin, 'r'), 'logo')
                 ->subject('Bienvenue au restaurant Quai Antique !')
                 ->htmlTemplate('registration/mail_inscription.html.twig')

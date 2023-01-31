@@ -21,6 +21,8 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
+    .addEntry('formulaire_dynamique', './assets/scripts/formulaire-dynamique.js')
+    .addEntry('reservation_creneau', './assets/scripts/reservation-creneaux.js')
     .addStyleEntry('admin', './assets/styles/admin.css')
     .addStyleEntry('accueil', './assets/styles/accueil.css')
     .addStyleEntry('connexion_inscription', './assets/styles/connexion-inscription.css')

@@ -1,0 +1,10 @@
+{% if reservation.getFkUtilisateur is not null %}
+    {% set personneReservation = reservation.getFkUtilisateur %}
+{% else %}
+    {% set personneReservation = reservation.getFkVisiteur %}
+{% endif %}
+<p>Bonjour {{ nomPrenom(personneReservation.getNom, personneReservation.getPrenom) }},</p>
+<br>
+<p>Votre réservation pour le {{ reservation.getDate|date('d/m/Y') }} à {{ reservation.getHeure|date('H\\hi') }} pour {{ personneReservation.getNombreConvives }} personnes a bien été enregistrée.<br></p>
+<br><br>
+<p>Nous vous remercions pour la confiance accordée,<br><br><img src="cid:logo" alt="logo" style="width: 145px;height: 30px;"></p>
