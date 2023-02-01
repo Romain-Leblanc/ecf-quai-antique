@@ -47,7 +47,6 @@ global.getCreneauFromDate = function getCreneauFromDate(dateTime) {
     else {
         // Transforme la chaine en objet Datetime au format anglais (elle sera traduit dans le contrôleur)
         let dateJour = new Date(dateTime).toLocaleString('en-GB', { weekday: 'long', timeZone: 'Europe/Paris'});
-        console.log(dateJour);
         // Définit le premier caractère en majuscule
         dateJour = dateJour.charAt(0).toUpperCase() + dateJour.slice(1);
 
@@ -109,7 +108,6 @@ function getNombreReservation(dateTime) {
         type: 'POST',
         data : {'dateTime': dateTime},
         success: function(html) {
-            console.log(html, dateTime);
             if (html === 0 || html === false || html === "") {
                 // Désactive le bouton de validation du formulaire si aucun convive encore accepté
                 // et efface la valeur du nombre de convives encore acceptés
