@@ -45,8 +45,8 @@
                     <div id="message-creneaux" class="w-100 d-flex flex-row justify-content-center"><p class="fst-italic text-center">Veuillez sélectionner une date pour afficher les créneaux correspondants.</p></div>
                 </div>
                 {% if app.user %}
-                    <div class="w-100 gap-2 d-flex flex-column justify-content-center align-items-center">
-                        <p class="text-center fw-bold">Vos informations sont récupérées automatiquement.</p>
+                    <div class="w-100 d-flex flex-column justify-content-center align-items-center">
+                        <p class="text-center fw-bold mb-0">Vos informations sont récupérées automatiquement.</p>
                     </div>
                 {% else %}
                     <div class="div-responsive mb-3">
@@ -69,10 +69,10 @@
                         </div>
                     </div>
                 {% endif %}
+                <div class="w-100 d-flex flex-row justify-content-center">
+                    <button id="btn-submit" type="submit" class="btn btn-success" disabled>Valider</button>
+                </div>
             </div>
-        </div>
-        <div class="w-100 d-flex flex-row justify-content-center">
-            <button id="btn-submit" type="submit" class="btn btn-success" disabled>Valider</button>
         </div>
     </div>
     {{ form_end(formReservation) }}

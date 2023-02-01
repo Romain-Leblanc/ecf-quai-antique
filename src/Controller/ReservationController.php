@@ -65,6 +65,7 @@ class ReservationController extends AbstractController
                 // Récupère le seuil de convive et le nombre de réservation pour cette date
                 $seuil = $conviveRepository->findOneBy([], ['id' => 'ASC'])->getNombre();
                 $nombreConvivesTotalReservation = 0;
+                // Récupère le nombre de convives présent pour la date de cette réservation
                 foreach ($reservationRepository->findBy(['date' => $reservation->getDate()]) as $uneReservation) {
                     if (!is_null($uneReservation->getFkUtilisateur())) {
                         $nombreConvivesTotalReservation += $uneReservation->getFkUtilisateur()->getNombreConvives();
@@ -77,7 +78,12 @@ class ReservationController extends AbstractController
                 $nombreConvivesRestant = (int) $seuil - $nombreConvivesTotalReservation;
 
                 // Si le créneau existe parmi la liste des créneaux pour cette date
-                if ($this->creneauExiste($this->genererCreneaux($reservation->getDate()->format('l')), $reservation->getHeure()->format('H:i'))) {
+                if (
+                    $this->creneauExiste(
+                        $this->genererCreneaux($reservation->getDate()->format('l')),
+                        $reservation
+                    )
+                ) {
                     // S'il reste de la place pour de nouveaux convives
                     if ($nombreConvivesRestant > 0) {
                         // Si le nombre de convives encore acceptés pour cette date est supérieur au nombre de convives de la réservation
@@ -87,7 +93,7 @@ class ReservationController extends AbstractController
                             && (!is_null($reservation->getFkUtilisateur()) || !is_null($reservation->getFkVisiteur()))
                         ) {
                             // Enregistrement de la réservation
-                            $entityManager->persist($form->getData());
+                            $entityManager->persist($reservation);
                             $entityManager->flush();
 
                             // Définit le destinataire en fonction si c'est un utilisateur ou visiteur
@@ -99,7 +105,7 @@ class ReservationController extends AbstractController
                             }
 
                             // Récupère le lien du logo pour l'afficher dans le contenu du mail
-                            $chemin = $this->getParameter('kernel.project_dir')."/public/images/logo.png";
+                            $chemin = $this->getParameter('kernel.project_dir').'/public/images/logo.png';
 
                             // Envoi du mail de confirmation de réservation
                             $email = (new TemplatedEmail())
@@ -173,9 +179,13 @@ class ReservationController extends AbstractController
             $liste = new DatePeriod($heureOuverture, $creneau, $heureFermeture);
             // Boucle sur chaque créneau pour l'ajouter au tableau des créneaux au format heure/minutes
             foreach ($liste as $unCreneau) {
+                // Si le jour de la date de réservation est le même que celui de la date du jour
+                // et que l'heure du créneau n'est pas expiré (heure actuelle <= heure du créneau), on ajoute le créneau
                 if ($chaine === $dateAujourdhui->format('l') && $dateAujourdhui->format('H:i') <= $unCreneau->format('H:i')) {
                     $tableauCreneaux[$cleJour][$cleValeur] = $unCreneau->format('H:i');
                 }
+                // Sinon si le jour de la date de réservation est bien différente de celle du jour, on ajoute le créneau
+                // Les créneaux expirés à la date du jour ne sont pas ajoutés dans le tableau
                 elseif($chaine !== $dateAujourdhui->format('l')) {
                     $tableauCreneaux[$cleJour][$cleValeur] = $unCreneau->format('H:i');
                 }
@@ -198,6 +208,7 @@ class ReservationController extends AbstractController
             // Récupère le seuil de convive et le nombre de réservation pour cette date
             $seuil = $conviveRepository->findOneBy([], ['id' => 'ASC'])->getNombre();
             $nombreConvivesTotalReservation = 0;
+            // Récupère le nombre de convives présent pour la date de cette réservation
             foreach ($reservationRepository->findBy(['date' => $dateJour]) as $uneReservation) {
                 if (!is_null($uneReservation->getFkUtilisateur())) {
                     $nombreConvivesTotalReservation += $uneReservation->getFkUtilisateur()->getNombreConvives();
@@ -206,6 +217,7 @@ class ReservationController extends AbstractController
                     $nombreConvivesTotalReservation += $uneReservation->getFkVisiteur()->getNombreConvives();
                 }
             }
+            // Calcul la différence entre le seuil maximal de convives et le nombre de convives réservés à cette date
             $nombreConvivesRestant = (int) $seuil - $nombreConvivesTotalReservation;
             return $this->json($nombreConvivesRestant);
         }
@@ -215,11 +227,31 @@ class ReservationController extends AbstractController
     }
 
     /* Retourne VRAI si l'heure d'un créneau fait parti du tableau des différents créneaux possibles */
-    private function creneauExiste(array $tableau, string $heure) {
+    private function creneauExiste(array $tableau, Reservation $reservation) {
         $existe = false;
-        foreach ($tableau as $uneValeur) {
-            if (in_array($heure, $uneValeur)) {
-                $existe = true;
+        // Récupère la date/heure actuelle
+        $dateAujourdhui = new DateTime();
+        $dateAujourdhui->setTimezone(new \DateTimeZone("Europe/Paris"));
+        // Définit le format de jour et récupère le créneau de réservation
+        $formatJour = 'l';
+        $heureReservation = $reservation->getHeure()->format('H:i');
+        // Boucle sur le tableau multidimensionnel des créneaux possibles pour la date de réservation
+        foreach ($tableau as $unCreneau) {
+            // Si l'heure de la réservation choisie est bien dans le tableau des différents créneaux
+            // et qu'elle n'a pas expirée
+            if (in_array($heureReservation, $unCreneau)) {
+                // Si le jour de la date de réservation est le même que celui d'aujourd'hui,
+                // on vérifie que ce créneau n'est pas expiré
+                if ($dateAujourdhui->format($formatJour) === $reservation->getDate()->format($formatJour)) {
+                    if ($dateAujourdhui->format('H:i') <= $heureReservation) {
+                        // Renvoi la valeur VRAI si elle n'est pas expiré pour ce jour
+                        $existe = true;
+                    }
+                }
+                else {
+                    // Renvoi la valeur VRAI si elle existe bien et non expiré
+                    $existe = true;
+                }
             }
         }
         return $existe;
