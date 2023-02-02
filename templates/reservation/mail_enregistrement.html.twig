@@ -1,10 +1,21 @@
+{# Si c'est un utilisateur ou visiteur, on récupère les informations correspondantes #}
 {% if reservation.getFkUtilisateur is not null %}
     {% set personneReservation = reservation.getFkUtilisateur %}
+    {% set allergieCollection = reservation.getFkUtilisateur.getAllergieUtilisateurs %}
 {% else %}
     {% set personneReservation = reservation.getFkVisiteur %}
+    {% set allergieCollection = reservation.getFkVisiteur.getAllergieVisiteurs %}
 {% endif %}
 <p>Bonjour {{ nomPrenom(personneReservation.getNom, personneReservation.getPrenom) }},</p>
 <br>
-<p>Votre réservation pour le {{ reservation.getDate|date('d/m/Y') }} à {{ reservation.getHeure|date('H\\hi') }} pour {{ personneReservation.getNombreConvives }} personnes a bien été enregistrée.<br></p>
-<br><br>
+<p>Votre réservation pour le {{ reservation.getDate|date('d/m/Y') }} à {{ reservation.getHeure|date('H\\hi') }} pour {{ personneReservation.getNombreConvives }} personnes a bien été enregistrée.</p>
+{# Si la liste des allergies enregistrées n'est pas vide, on l'affiche #}
+{% if allergieCollection is not empty %}
+    {% set allergies = 'Voici la liste des allergie(s) enregistrée(s) : ' ~ allergieCollection|map(a => a.getAllergie)|join(', ')|capitalize ~ '.' %}
+{% else %}
+    {# Sinon on affiche le message que cette liste est vide #}
+    {% set allergies = "Aucune allergie n'a été précisée." %}
+{% endif %}
+<p>{{ allergies }}</p>
+<br><br><br>
 <p>Nous vous remercions pour la confiance accordée,<br><br><img src="cid:logo" alt="logo" style="width: 145px;height: 30px;"></p>

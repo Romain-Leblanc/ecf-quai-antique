@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Visiteur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -94,6 +95,18 @@ class VisiteurType extends AbstractType
                     ])
                 ],
                 'required' => true
+            ])
+            ->add('allergieVisiteurs', CollectionType::class, [
+                'entry_type' => AllergieVisiteurType::class,
+                'label' => 'Allergie(s) :',
+                'label_attr' => [
+                    'class' => 'col-md-5 col-form-label'
+                ],
+                'error_bubbling' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'required' => true,
+                'by_reference' => false
             ])
         ;
     }

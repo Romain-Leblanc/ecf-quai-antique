@@ -61,6 +61,23 @@
 .afficher {
     display: block;
 }
+#allergies {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#reservation_fk_visiteur_allergieVisiteurs > div > label {
+    display: none;
+}
+#reservation_fk_visiteur_allergieVisiteurs > div > div > div, #form-dynamique-contenu > div > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+}
 @media screen and (min-width: 1450px) {
     .div-row {
         flex-direction: row;

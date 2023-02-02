@@ -24,20 +24,26 @@ const addFormToCollection = (e) => {
     let boutonSuppr = document.createElement("button");
     boutonSuppr.type = "button";
     boutonSuppr.className = "btn btn-danger";
-    boutonSuppr.id = "delete-allergie-" + index;
+    boutonSuppr.id = "delete-allergies-" + index;
     boutonSuppr.innerText = "Supprimer";
     boutonSuppr.addEventListener("click", function(){
         this.previousElementSibling.parentElement.remove();
     });
     // Récupère la <div> du champ de la collection qui vient d'être créé + ajout du bouton supprimer dans cette div
     let newForm = item.querySelector("div");
-    newForm.append(boutonSuppr);
     // Incrémentation de la valeur de l'index
     link.dataset.index++;
     // Récupère et ajoute le bouton d'ajout à la <div> des nouveaux champs de la collection
-    // let boutonAjout = link.querySelector("#btn-ajout");
     div.append(newForm);
 };
 
+/* Supprime le(s) champ(s) de saisie d'une allergie en cas d'erreur de validation du formulaire */
+global.removeBtn = function removeBtn(e) {
+    // Supprime le champ et son bouton
+    e.previousElementSibling.parentElement.parentElement.remove();
+    e.remove();
+}
+
+// Ajout de l'évènement onClick aux boutons "Ajouter"
 document
     .querySelector('#btn-ajout').addEventListener("click", addFormToCollection);

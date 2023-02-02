@@ -30,9 +30,13 @@ class Visiteur
     #[ORM\OneToMany(mappedBy: 'fk_visiteur', targetEntity: Reservation::class)]
     private Collection $reservations;
 
+    #[ORM\OneToMany(mappedBy: 'fk_visiteur', targetEntity: AllergieVisiteur::class, orphanRemoval: true, cascade: ['persist'])]
+    private Collection $allergieVisiteurs;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
+        $this->allergieVisiteurs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,6 +116,36 @@ class Visiteur
             // set the owning side to null (unless already changed)
             if ($reservation->getFkVisiteur() === $this) {
                 $reservation->setFkVisiteur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AllergieVisiteur>
+     */
+    public function getAllergieVisiteurs(): Collection
+    {
+        return $this->allergieVisiteurs;
+    }
+
+    public function addAllergieVisiteur(AllergieVisiteur $allergieVisiteur): self
+    {
+        if (!$this->allergieVisiteurs->contains($allergieVisiteur)) {
+            $this->allergieVisiteurs->add($allergieVisiteur);
+            $allergieVisiteur->setFkVisiteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAllergieVisiteur(AllergieVisiteur $allergieVisiteur): self
+    {
+        if ($this->allergieVisiteurs->removeElement($allergieVisiteur)) {
+            // set the owning side to null (unless already changed)
+            if ($allergieVisiteur->getFkVisiteur() === $this) {
+                $allergieVisiteur->setFkVisiteur(null);
             }
         }
 

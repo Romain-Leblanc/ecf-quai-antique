@@ -2,9 +2,30 @@
 
 {% block title %}Réservation{% endblock %}
 
+{#
+    Modification du thème du formulaire pour la collection d'allergies
+    Cela est nécessaire puisqu'en cas d'erreur dans le formulaire, aucun bouton de suppression sera affiché pour
+    les élements <input> de saisie d'une allergie
+#}
+{% form_theme formReservation _self %}
+{% block collection_widget %}
+    {% block form_widget %}
+        {% if compound %}
+            {{ block('form_widget_compound') }}
+        {% else %}
+            {{ block('form_widget_simple') }}
+            {# Si l'identifiant de l'elément <input type="text"> concerne bien une allergie, on ajoute un bouton de suppression #}
+            {% if "reservation_fk_visiteur_allergieVisiteurs" in id %}
+                <button type="button" id="delete-allergies-0" class="btn btn-danger" onclick="removeBtn(this);">Supprimer</button>
+            {% endif %}
+        {% endif %}
+    {% endblock %}
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('reservation_creneau') }}
+    {{ encore_entry_script_tags('formulaire_dynamique') }}
 {% endblock %}
 
 {% block body %}
@@ -45,8 +66,9 @@
                     <div id="message-creneaux" class="w-100 d-flex flex-row justify-content-center"><p class="fst-italic text-center">Veuillez sélectionner une date pour afficher les créneaux correspondants.</p></div>
                 </div>
                 {% if app.user %}
-                    <div class="w-100 d-flex flex-column justify-content-center align-items-center">
+                    <div class="w-100 d-flex flex-column justify-content-center align-items-center gap-4">
                         <p class="text-center fw-bold mb-0">Vos informations sont récupérées automatiquement.</p>
+                        <p class="text-center mb-0">La liste de vos allergie(s) :<br><span class="fw-bold">{{ app.user.getAllergieUtilisateurs|map(a => a.getAllergie)|join(', ')|capitalize }}</span></p>
                     </div>
                 {% else %}
                     <div class="div-responsive mb-3">
@@ -68,9 +90,20 @@
                             {{ form_help(formReservation.fk_visiteur.children.email) }}
                         </div>
                     </div>
+                    <div class="div-responsive mb-3">
+                        {{ form_label(formReservation.fk_visiteur.children.allergieVisiteurs) }}
+                        <div class="col-lg-5 col-md-6 col-sm-8" id="allergies"
+                             data-index="{{ formReservation.fk_visiteur.children.allergieVisiteurs|length > 0 ? formReservation.fk_visiteur.children.allergieVisiteurs|last.vars.name + 1 : 0 }}"
+                             data-prototype="{{ form_widget(formReservation.fk_visiteur.children.allergieVisiteurs.vars.prototype)|trim|e('html_attr') }}"
+                        >
+                            {{ form_widget(formReservation.fk_visiteur.children.allergieVisiteurs) }}
+                            <div id="form-dynamique-contenu"></div>
+                            <button type="button" id="btn-ajout" class="btn btn-success" data-collection-holder-class="allergies">Ajouter</button>
+                        </div>
+                    </div>
                 {% endif %}
-                <div class="w-100 d-flex flex-row justify-content-center">
-                    <button id="btn-submit" type="submit" class="btn btn-success" disabled>Valider</button>
+                <div class="mt-3 w-100 d-flex flex-row justify-content-center">
+                    <button id="btn-submit" type="submit" class="btn btn-primary" disabled>Valider</button>
                 </div>
             </div>
         </div>

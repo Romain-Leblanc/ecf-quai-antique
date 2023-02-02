@@ -2,6 +2,31 @@
 
 {% block title %}Inscription{% endblock %}
 
+{#
+Modification du thème du formulaire pour la collection d'allergies
+Cela est nécessaire puisqu'en cas d'erreur dans le formulaire, aucun bouton de suppression sera affiché pour
+les élements <input> de saisie d'une allergie
+#}
+{% form_theme formInscription _self %}
+{% block collection_widget %}
+    {% block form_widget %}
+        {% if compound %}
+            {{ block('form_widget_compound') }}
+        {% else %}
+            {{ block('form_widget_simple') }}
+            {# Si l'identifiant de l'elément <input type="text"> concerne bien une allergie, on ajoute un bouton de suppression #}
+            {% if "registration_form_allergieUtilisateurs" in id %}
+                <button type="button" id="delete-allergies-0" class="btn btn-danger" onclick="removeBtn(this);">Supprimer</button>
+            {% endif %}
+        {% endif %}
+    {% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('formulaire_dynamique') }}
+{% endblock %}
+
 {% block body %}
     {{ form_start(formInscription) }}
     <div class="mb-2 d-flex flex-column align-items-center gap-4">
@@ -58,6 +83,24 @@
         <div class="col-lg-6 text-center">
             {{ form_widget(formInscription.nombre_convives) }}
         </div>
+    </div>
+    <div class="row mt-4 justify-content-center align-items-center">
+        <div class="col-lg-4 text-center">
+            {{ form_label(formInscription.allergieUtilisateurs) }}
+        </div>
+        <div class="col-lg-6 text-center" id="allergies"
+             data-index="{{ formInscription.allergieUtilisateurs|length > 0 ? formInscription.allergieUtilisateurs|last.vars.name + 1 : 0 }}"
+             data-prototype="{{ form_widget(formInscription.allergieUtilisateurs.vars.prototype)|trim|e('html_attr') }}"
+        >
+            {{ form_widget(formInscription.allergieUtilisateurs) }}
+            <div id="form-dynamique-contenu"></div>
+            <button type="button" id="btn-ajout" class="btn btn-success" data-collection-holder-class="allergies">Ajouter</button>
+        </div>
+{#        <div class="col-lg-6 text-center">
+            {{ form_widget(formInscription.allergieUtilisateurs) }}
+            <div id="form-dynamique-contenu"></div>
+            <button type="button" id="btn-ajout" class="btn btn-success" data-collection-holder-class="allergies">Ajouter</button>
+        </div>#}
     </div>
     <div class="w-100 gap-2 mt-4 d-flex justify-content-center align-items-center">
         {{ form_label(formInscription.agreeTerms) }}

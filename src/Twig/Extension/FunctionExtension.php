@@ -2,7 +2,6 @@
 
 namespace App\Twig\Extension;
 
-use App\Twig\Runtime\FunctionExtensionRuntime;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;

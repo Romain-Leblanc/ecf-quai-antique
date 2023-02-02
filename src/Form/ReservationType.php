@@ -127,6 +127,7 @@ class ReservationType extends AbstractType
             ;
         }
         else {
+            // Sinon on affiche les champs de saisie pour un visiteur
             $builder
                 ->add('fk_visiteur', VisiteurType::class, [
                     'choices' => $couverts,

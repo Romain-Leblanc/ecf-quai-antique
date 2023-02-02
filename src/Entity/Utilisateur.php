@@ -43,9 +43,13 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'fk_utilisateur', targetEntity: Reservation::class)]
     private Collection $reservations;
 
+    #[ORM\OneToMany(mappedBy: 'fk_utilisateur', targetEntity: AllergieUtilisateur::class, orphanRemoval: true, cascade: ['persist'])]
+    private Collection $allergieUtilisateurs;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
+        $this->allergieUtilisateurs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -197,6 +201,36 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($reservation->getFkUtilisateur() === $this) {
                 $reservation->setFkUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AllergieUtilisateur>
+     */
+    public function getAllergieUtilisateurs(): Collection
+    {
+        return $this->allergieUtilisateurs;
+    }
+
+    public function addAllergieUtilisateur(AllergieUtilisateur $allergieUtilisateur): self
+    {
+        if (!$this->allergieUtilisateurs->contains($allergieUtilisateur)) {
+            $this->allergieUtilisateurs->add($allergieUtilisateur);
+            $allergieUtilisateur->setFkUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAllergieUtilisateur(AllergieUtilisateur $allergieUtilisateur): self
+    {
+        if ($this->allergieUtilisateurs->removeElement($allergieUtilisateur)) {
+            // set the owning side to null (unless already changed)
+            if ($allergieUtilisateur->getFkUtilisateur() === $this) {
+                $allergieUtilisateur->setFkUtilisateur(null);
             }
         }
 
