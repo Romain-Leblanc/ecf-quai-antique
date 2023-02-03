@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre compte{% endblock %}
+
+{% block body %}
+    <div class="d-flex flex-column gap-4">
+        <h3 class="titre-presentation m-0">Votre <span>compte</span></h3>
+        {% for notice in app.flashes('profil') %}
+            <div class="alert alert-success" role="alert">{{ notice|nl2br }}</div>
+        {% endfor %}
+        <div class="div-detail">
+            <div class="d-flex flex-column gap-3">
+                <div class="row justify-content-center">
+                    <div class="py-2 col-md-5">
+                        <p class="mb-0 p-detail-titre fst-italic">Nom :</p>
+                    </div>
+                    <div class="py-2 col-lg-5 col-md-6 row mx-0 align-items-center text-break">
+                        <p class="mb-0 p-detail-contenu">{{ app.user.nom|upper }}</p>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="py-2 col-md-5">
+                        <p class="mb-0 p-detail-titre fst-italic">Prénom :</p>
+                    </div>
+                    <div class="py-2 col-lg-5 col-md-6 row mx-0 align-items-center text-break">
+                        <p class="mb-0 p-detail-contenu">{{ app.user.prenom|capitalize }}</p>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="py-2 col-md-5">
+                        <p class="mb-0 p-detail-titre fst-italic">Email :</p>
+                    </div>
+                    <div class="py-2 col-lg-5 col-md-6 row mx-0 align-items-center text-break">
+                        <p class="mb-0 p-detail-contenu">{{ app.user.email }}</p>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="py-2 col-md-5">
+                        <p class="mb-0 p-detail-titre fst-italic">Mot de passe :</p>
+                    </div>
+                    <div class="py-2 col-lg-5 col-md-6 row mx-0 align-items-center text-break">
+                        <p class="mb-0 p-detail-contenu">N'est pas affiché</p>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="py-2 col-md-5">
+                        <p class="mb-0 p-detail-titre fst-italic">Nombre convives :</p>
+                    </div>
+                    <div class="py-2 col-lg-5 col-md-6 row mx-0 align-items-center text-break">
+                        <p class="mb-0 p-detail-contenu">{{ app.user.getNombreConvives }}</p>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="py-2 col-md-5">
+                        <p class="mb-0 p-detail-titre fst-italic">Vos allergie(s) :</p>
+                    </div>
+                    <div class="py-2 col-lg-5 col-md-6 row mx-0 align-items-center text-break">
+                        <p class="mb-0 p-detail-contenu">{{ app.user.getAllergieUtilisateurs|map(a => a.getAllergie)|join(', ')|capitalize }}</p>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center align-items-center mt-3">
+                    <a href="{{ path('restaurant_profil_modifier') }}" class="btn btn-primary">Modifier</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

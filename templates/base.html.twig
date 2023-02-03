@@ -12,6 +12,7 @@
         {{ encore_entry_link_tags('accueil') }}
         {{ encore_entry_link_tags('carte') }}
         {{ encore_entry_link_tags('reservation') }}
+        {{ encore_entry_link_tags('profil') }}
     {% endblock %}
 
     {% block javascripts %}
@@ -52,8 +53,11 @@
                             <p class="mb-0 text-dark">{{ nomPrenom(app.user.nom, app.user.prenom) }}</p>
                         </div>
                         <div class="d-flex gap-5 justify-content-center">
-                            <a class="btn btn-primary">Modifier</a>
-                            <a href="{{ path('app_deconnexion') }}" class="btn btn-danger">Déconnexion</a>
+                            {# Empêche la modification du compte administrateur #}
+                            {% if not is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('restaurant_profil') }}" class="btn btn-primary">Modifier</a>
+                                <a href="{{ path('app_deconnexion') }}" class="btn btn-danger">Déconnexion</a>
+                            {% endif %}
                         </div>
                     </div>
                     {% if is_granted('ROLE_ADMIN') %}

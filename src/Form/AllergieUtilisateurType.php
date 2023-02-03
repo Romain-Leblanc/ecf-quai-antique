@@ -17,9 +17,9 @@ class AllergieUtilisateurType extends AbstractType
         $builder
             ->add('allergie', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'placeholder' => 'Requis',
                 ],
-                'data' => null,
                 'label' => false,
                 'error_bubbling' => true,
                 'constraints' => [

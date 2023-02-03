@@ -7,12 +7,12 @@
         <div class="alert alert-success" role="alert">{{ notice|nl2br }}</div>
     {% endfor %}
     <div class="d-flex flex-column justify-content-center align-items-center mb-3">
-        <h2 class="titre-presentation m-0">Nos <span>réalisations</span></h2>
+        <h3 class="titre-presentation m-0">Nos <span>réalisations</span></h3>
     </div>
     {{ render(controller('App\\Controller\\AccueilController::galerie')) }}
     <div class="d-flex flex-column justify-content-center align-items-center mb-5 gap-4">
         <a class="btn-reserver mb-4" href="{{ path('restaurant_reservation') }}">Réserver</a>
-        <h2 class="titre-presentation m-0">Nos <span>menus</span></h2>
+        <h3 class="titre-presentation m-0">Nos <span>menus</span></h3>
         {{ render(controller('App\\Controller\\AccueilController::menu')) }}
     </div>
 {% endblock %}

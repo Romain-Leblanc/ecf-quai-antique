@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Reservation;
 use App\Form\ReservationType;
-use App\Repository\HoraireRepository;
 use App\Repository\JourRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\SeuilConviveRepository;
@@ -28,7 +27,7 @@ class ReservationController extends AbstractController
     {}
 
     #[Route('/reservation', name: 'restaurant_reservation', methods: ['GET', 'POST'])]
-    public function index(Request $request, EntityManagerInterface $entityManager, HoraireRepository $horaireRepository, SeuilConviveRepository $conviveRepository, ReservationRepository $reservationRepository, MailerInterface $mailer): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, SeuilConviveRepository $conviveRepository, ReservationRepository $reservationRepository, MailerInterface $mailer): Response
     {
         // Récupère la chaine du jour pour la requête
         $chaineJour = (string) $request->request->get('dateJour');
@@ -87,7 +86,7 @@ class ReservationController extends AbstractController
                 ) {
                     // S'il reste de la place pour de nouveaux convives
                     if ($nombreConvivesRestant > 0) {
-                        // Si le nombre de convives encore acceptés pour cette date est supérieur au nombre de convives de la réservation
+                        // Si le nombre de convives encore acceptés pour cette date est supérieur ou égal au nombre de convives de la réservation
                         // et qu'un utilisateur ou visiteur est bien lié à la réservation
                         if (
                             $nombreConvivesRestant >= $nombreConvivesReservation

@@ -31,6 +31,7 @@
 {% block body %}
     {{ form_start(formReservation) }}
     <div class="d-flex flex-column justify-content-center align-items-center mb-5">
+        <h3 class="titre-presentation m-0 mb-4">Réservation d'une <span>table</span></h3>
         {% if errors is defined %}
             {% for error in errors %}
                 <div class="alert alert-danger" role="alert">{{ error.message|nl2br }}</div>

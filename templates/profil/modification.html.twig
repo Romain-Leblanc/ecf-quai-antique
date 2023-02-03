@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mon compte{% endblock %}
+
+{#
+    Modification du thème du formulaire pour la collection d'allergies
+    Cela est nécessaire puisqu'en cas d'erreur dans le formulaire, aucun bouton de suppression sera affiché pour
+    les élements <input> de saisie d'une allergie
+#}
+{% form_theme formUtilisateur _self %}
+{% block collection_widget %}
+    {% block form_widget %}
+        {% if compound %}
+            {{ block('form_widget_compound') }}
+        {% else %}
+            {{ block('form_widget_simple') }}
+            {# Si l'identifiant de l'elément <input type="text"> concerne bien une allergie, on ajoute un bouton de suppression #}
+            {% if "modification_profil_allergieUtilisateurs" in id %}
+                <button type="button" id="delete-allergies-0" class="btn btn-danger" onclick="removeBtn(this);">Supprimer</button>
+            {% endif %}
+        {% endif %}
+    {% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('formulaire_dynamique') }}
+{% endblock %}
+
+{% block body %}
+    {{ form_start(formUtilisateur) }}
+        <div class="d-flex flex-column justify-content-center align-items-center mb-5 gap-3">
+            <h3 class="titre-presentation m-0 mb-4">Modification de votre <span>compte</span></h3>
+            {% if errors is defined %}
+                {% for error in errors %}
+                    <div class="alert alert-danger" role="alert">{{ error.message|nl2br }}</div>
+                {% endfor %}
+            {% endif %}
+            <div class="d-flex justify-content-center align-items-center div-bouton-radio flex-wrap">
+                <div class="d-flex flex-column w-100 gap-3">
+                    <div class="div-responsive mb-3">
+                        {{ form_label(formUtilisateur.nombre_convives) }}
+                        <div class="col-lg-5 col-md-6 col-sm-8 align-items-center">
+                            {{ form_widget(formUtilisateur.nombre_convives) }}
+                        </div>
+                    </div>
+                    <div class="div-responsive mb-3">
+                        {{ form_label(formUtilisateur.allergieUtilisateurs) }}
+                        <div class="col-lg-5 col-md-6 col-sm-8" id="allergies"
+                             data-index="{{ formUtilisateur.allergieUtilisateurs|length > 0 ? formUtilisateur.allergieUtilisateurs|last.vars.name + 1 : 0 }}"
+                             data-prototype="{{ form_widget(formUtilisateur.allergieUtilisateurs.vars.prototype)|trim|e('html_attr') }}"
+                        >
+                            {{ form_widget(formUtilisateur.allergieUtilisateurs) }}
+                            <div id="form-dynamique-contenu"></div>
+                            <button type="button" id="btn-ajout" class="btn btn-success" data-collection-holder-class="allergies">Ajouter</button>
+                        </div>
+                    </div>
+                    <div class="mt-3 w-100 d-flex flex-row justify-content-center">
+                        <button id="btn-submit" type="submit" class="btn btn-primary">Valider</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{ form_end(formUtilisateur) }}
+{% endblock %}

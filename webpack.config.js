@@ -28,6 +28,7 @@ Encore
     .addStyleEntry('connexion_inscription', './assets/styles/connexion-inscription.css')
     .addStyleEntry('carte', './assets/styles/carte.css')
     .addStyleEntry('reservation', './assets/styles/reservation.css')
+    .addStyleEntry('profil', './assets/styles/profil.css')
     .addStyleEntry('bootstrap', './assets/bootstrap-5.2.2/css/bootstrap.min.css')
     .addStyleEntry('fontawesome', './assets/fontawesome-6.2.0/css/all.css')
 

@@ -1,0 +1,36 @@
+.p-detail-titre {
+    text-align: center !important;
+}
+#modification_profil_allergieUtilisateurs > div > label {
+    display: none;
+}
+#modification_profil_allergieUtilisateurs > div > div > div, #form-dynamique-contenu > div > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+@media screen and (min-width: 768px) {
+    .div-detail > div > .row > div {
+        border-top: 1px solid #dddddd;
+        border-bottom: 1px solid #dddddd;
+    }
+    .p-detail-contenu {
+        text-align: start !important;
+    }
+}
+@media screen and (max-width: 767px) {
+    .div-detail > div > .row {
+        border-top: 1px solid #dddddd;
+        border-bottom: 1px solid #dddddd;
+    }
+    .div-detail > div > .row > div {
+        border: 0;
+    }
+    .p-detail-contenu {
+        text-align: center !important;
+    }
+}
