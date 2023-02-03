@@ -53,7 +53,8 @@ class ReservationController extends AbstractController
                     $nombreConvivesReservation = $reservation->getFkUtilisateur()->getNombreConvives();
                 }
                 else {
-                    // Si un utilisateur est connecté, son identifiant est ajouté à la réservation
+                    // Sinon c'est un visiteur donc on définit l'identifiant de l'utilisateur à NULL
+                    // et celui du visiteur avec les informations du formulaire
                     $reservation->setFkUtilisateur(null);
                     $reservation->setFkVisiteur($reservation->getFkVisiteur());
                     $nombreConvivesReservation = $reservation->getFkVisiteur()->getNombreConvives();
@@ -89,7 +90,7 @@ class ReservationController extends AbstractController
                         // Si le nombre de convives encore acceptés pour cette date est supérieur au nombre de convives de la réservation
                         // et qu'un utilisateur ou visiteur est bien lié à la réservation
                         if (
-                            $nombreConvivesRestant > $nombreConvivesReservation
+                            $nombreConvivesRestant >= $nombreConvivesReservation
                             && (!is_null($reservation->getFkUtilisateur()) || !is_null($reservation->getFkVisiteur()))
                         ) {
                             // Enregistrement de la réservation
