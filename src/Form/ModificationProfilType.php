@@ -32,7 +32,7 @@ class ModificationProfilType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez entrer un nombre de convives par défaut.',
+                        'message' => 'Le champ \'Nombre convives\' ne peut pas contenir que des caractères blancs.'
                     ]),
                     new Length([
                         'max' => 100,

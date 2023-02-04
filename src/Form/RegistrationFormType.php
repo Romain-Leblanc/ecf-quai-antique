@@ -32,12 +32,12 @@ class RegistrationFormType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez entrer un nom.'
+                        'message' => 'Le champ \'Nom\' ne peut pas contenir que des caractères blancs.'
                     ]),
                     new Length([
                         'min' => 2,
                         'minMessage' => 'Votre nom doit comporter au moins {{ limit }} caractères.',
-                        'max' => 25,
+                        'max' => 50,
                         'maxMessage' => 'Votre nom ne doit pas comporter plus de {{ limit }} caractères.',
                     ])
                 ],
@@ -54,12 +54,12 @@ class RegistrationFormType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez entrer un prénom.'
+                        'message' => 'Le champ \'Prénom\' ne peut pas contenir que des caractères blancs.'
                     ]),
                     new Length([
                         'min' => 2,
                         'minMessage' => 'Votre prénom doit comporter au moins {{ limit }} caractères.',
-                        'max' => 25,
+                        'max' => 50,
                         'maxMessage' => 'Votre prénom ne doit pas comporter plus de {{ limit }} caractères.',
                     ])
                 ],
@@ -80,7 +80,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez entrer une adresse-mail.'
+                        'message' => 'Le champ \'Email\' ne peut pas contenir que des caractères blancs.'
                     ])
                 ],
                 'required' => true
@@ -100,7 +100,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez entrer un mot de passe.',
+                        'message' => 'Le champ \'Mot de passe\' ne peut pas contenir que des caractères blancs.'
                     ]),
                     new Length([
                         'min' => 6,
@@ -126,7 +126,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez entrer un nombre de convives par défaut.',
+                        'message' => 'Le champ \'Nombre convives\' ne peut pas contenir que des caractères blancs.'
                     ]),
                     new Length([
                         'max' => 100,

@@ -6,7 +6,7 @@
     {% set personneReservation = reservation.getFkVisiteur %}
     {% set allergieCollection = reservation.getFkVisiteur.getAllergieVisiteurs %}
 {% endif %}
-<p>Bonjour {{ nomPrenom(personneReservation.getNom, personneReservation.getPrenom) }},</p>
+<p>Bonjour {{ personneReservation.getNomComplet }},</p>
 <br>
 <p>Votre réservation pour le {{ reservation.getDate|date('d/m/Y') }} à {{ reservation.getHeure|date('H\\hi') }} pour {{ personneReservation.getNombreConvives }} personnes a bien été enregistrée.</p>
 {# Si la liste des allergies enregistrées n'est pas vide, on l'affiche #}

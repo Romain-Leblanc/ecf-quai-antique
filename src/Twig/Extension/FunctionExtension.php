@@ -15,17 +15,11 @@ class FunctionExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('nomPrenom', [$this, 'nomPrenom']),
             new TwigFunction('heureMinute', [$this, 'heureMinute']),
             new TwigFunction('montantEuros', [$this, 'montantEuros']),
             new TwigFunction('fichierExiste', [$this, 'fichierExiste']),
             new TwigFunction('menuActif', [$this, 'menuActif']),
         ];
-    }
-
-    // Retourne le nom et prénom
-    function nomPrenom(string $nom, string $prenom){
-        return mb_strtoupper($nom)." ".ucfirst($prenom);
     }
 
     // Retourne l'heure et minutes

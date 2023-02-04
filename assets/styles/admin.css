@@ -1,0 +1,10 @@
+.logo-custom {
+    text-align: center;
+}
+.logo-admin {
+    width: 145px !important;
+    height: 30px !important;
+}
+.content-wrapper span, td > span {
+    word-break: break-all;
+}

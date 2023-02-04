@@ -43,7 +43,7 @@ class VisiteurType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez entrer un nom.',
+                        'message' => 'Le champ \'Nom\' ne peut pas contenir que des caractères blancs.'
                     ]),
                     new Length([
                         'min' => 1,
@@ -65,7 +65,7 @@ class VisiteurType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez entrer un prénom.',
+                        'message' => 'Le champ \'Prénom\' ne peut pas contenir que des caractères blancs.'
                     ]),
                     new Length([
                         'min' => 1,
@@ -91,7 +91,7 @@ class VisiteurType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez entrer une adresse-mail.'
+                        'message' => 'Le champ \'Email\' ne peut pas contenir que des caractères blancs.'
                     ])
                 ],
                 'required' => true
