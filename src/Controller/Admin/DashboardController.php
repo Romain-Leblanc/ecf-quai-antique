@@ -32,7 +32,7 @@ class DashboardController extends AbstractDashboardController
     public function configureUserMenu(UserInterface $user): UserMenu
     {
         return parent::configureUserMenu($user)
-            ->setName($user->getFullName().' ('.$user->getEmail().')')
+            ->setName($user->getNomComplet().' ('.$user->getEmail().')')
             ->displayUserName(false)
             ;
     }
