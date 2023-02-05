@@ -63,7 +63,7 @@
                     {% if is_granted('ROLE_ADMIN') %}
                         <hr class="mt-4">
                         <div id="menu-compte-lien">
-                            <a class="nav-item nav-link text-dark fw-normal" href="#">Accès administrateur</a>
+                            <a class="nav-item nav-link text-dark fw-normal" href="{{ path('admin') }}">Accès administrateur</a>
                         </div>
                     {% endif %}
                 {% endif %}

@@ -1,0 +1,26 @@
+{% set entite = entity.getInstance %}
+{# Si la réservation appartient à un utilisateur, on affiche ses informations #}
+{% if entite.getFkUtilisateur is not null %}
+    {% set personneReservation = entite.getFkUtilisateur %}
+    {% if field.property == "nom" %}{{ personneReservation.getNom }}
+    {% elseif field.property == "prenom" %}{{ personneReservation.getPrenom }}
+    {% elseif field.property == "email" %}{{ personneReservation.getEmail }}
+    {% elseif field.property == "nombre_convives" %}{{ personneReservation.getNombreConvives }}
+    {% elseif field.property == "allergie" %}
+        {% if personneReservation.getAllergieUtilisateurs|length > 0 %}
+            {{ personneReservation.getAllergieUtilisateurs|map(a => a.getAllergie)|join(', ')|capitalize }}
+        {% else %}Aucune{% endif %}
+    {% endif %}
+{% else %}
+    {# Sinon on affiche celles du visiteur #}
+    {% set personneReservation = entite.getFkVisiteur %}
+    {% if field.property == "nom" %}{{ personneReservation.getNom }}
+    {% elseif field.property == "prenom" %}{{ personneReservation.getPrenom }}
+    {% elseif field.property == "email" %}{{ personneReservation.getEmail }}
+    {% elseif field.property == "nombre_convives" %}{{ personneReservation.getNombreConvives }}
+    {% elseif field.property == "allergie" %}
+        {% if personneReservation.getAllergieVisiteurs|length > 0 %}
+            {{ personneReservation.getAllergieVisiteurs|map(a => a.getAllergie)|join(', ')|capitalize }}
+        {% else %}Aucune{% endif %}
+    {% endif %}
+{% endif %}

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Reservation;
 use App\Entity\Utilisateur;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -18,7 +19,7 @@ class DashboardController extends AbstractDashboardController
     public function index(): Response
     {
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        return $this->redirect($adminUrlGenerator->setController(UtilisateurCrudController::class)->generateUrl());
+        return $this->redirect($adminUrlGenerator->setController(ReservationCrudController::class)->generateUrl());
     }
 
     public function configureDashboard(): Dashboard
@@ -41,5 +42,6 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToUrl('Revenir au site', 'fa fa-home', '/');
         yield MenuItem::linkToCrud('Administrateurs', 'fas fa-users', Utilisateur::class);
+        yield MenuItem::linkToCrud('Réservations', 'fas fa-clipboard-list', Reservation::class);
     }
 }

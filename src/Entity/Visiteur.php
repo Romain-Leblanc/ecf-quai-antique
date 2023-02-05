@@ -151,4 +151,9 @@ class Visiteur
 
         return $this;
     }
+
+    public function getNomComplet(): ?string
+    {
+        return mb_strtoupper($this->getNom())." ".ucfirst($this->getPrenom());
+    }
 }
