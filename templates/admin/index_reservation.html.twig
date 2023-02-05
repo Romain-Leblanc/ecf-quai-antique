@@ -1,25 +1,12 @@
 {% set entite = entity.getInstance %}
+{# Si la réservation appartient à un utilisateur, on affiche ses informations #}
 {% if entite.getFkUtilisateur is not null %}
     {% set personneReservation = entite.getFkUtilisateur %}
-    {% if field.value is iterable %}
-        {{ field.formattedValue }}
-    {% else %}
-        {% if field.property == "nombre_couverts" %}{{ personneReservation.getNombreConvives }}{% endif %}
-        {% if field.property == "nom_prenom" %}{{ personneReservation.getNomComplet }}{% endif %}
-    {% endif %}
+    {% if field.property == "nombre_couverts" %}{{ personneReservation.getNombreConvives }}{% endif %}
+    {% if field.property == "nom_prenom" %}{{ personneReservation.getNomComplet }}{% endif %}
 {% else %}
+    {# Sinon on affiche celles du visiteur #}
     {% set personneReservation = entite.getFkVisiteur %}
-    {% if field.value is iterable %}
-        {{ field.formattedValue }}
-    {% else %}
-        {% if field.property == "nombre_couverts" %}{{ personneReservation.getNombreConvives }}{% endif %}
-        {% if field.property == "nom_prenom" %}{{ personneReservation.getNomComplet }}{% endif %}
-    {% endif %}
+    {% if field.property == "nombre_couverts" %}{{ personneReservation.getNombreConvives }}{% endif %}
+    {% if field.property == "nom_prenom" %}{{ personneReservation.getNomComplet }}{% endif %}
 {% endif %}
-{#{% set nomPrenom = "" %}#}
-{#{% if entity.getInstance.getFkUtilisateur is not null %}
-    {% set nomPrenom = entity.getInstance.getFkUtilisateur.getNomPrenomUtilisateur %}
-{% else %}
-    {% set nomPrenom = entity.getInstance.getNomPrenomVisiteur %}
-{% endif %}#}
-{#<span title="{{ nomPrenom }}">{{ nomPrenom }}</span>#}

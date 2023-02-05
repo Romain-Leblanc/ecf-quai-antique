@@ -62,9 +62,7 @@ class ReservationCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         if ($pageName === Crud::PAGE_INDEX) {
-            yield DateField::new('date')
-                ->setFormat('dd/MM/yyy')
-            ;
+            yield DateField::new('date');
             yield TimeField::new('heure')
                 ->formatValue(function ($value) {
                     $heure = new \DateTime($value);
