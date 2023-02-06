@@ -142,7 +142,7 @@ class FormuleCrudController extends AbstractCrudController
                     ])
                 ]
             ])
-            ->setHelp('Valeur maximale : 5000')
+            ->setHelp('La valeur doit être comprise entre 1 et 5000.')
             ->setRequired(true)
         ;
     }
