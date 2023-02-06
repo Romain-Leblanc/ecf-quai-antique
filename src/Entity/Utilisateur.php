@@ -237,6 +237,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /* Renvoie le nom/prénom de l'utilisateur */
     public function getNomComplet(): ?string
     {
         return mb_strtoupper($this->getNom())." ".ucfirst($this->getPrenom());

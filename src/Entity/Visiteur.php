@@ -152,6 +152,7 @@ class Visiteur
         return $this;
     }
 
+    /* Renvoie le nom/prénom du visiteur */
     public function getNomComplet(): ?string
     {
         return mb_strtoupper($this->getNom())." ".ucfirst($this->getPrenom());

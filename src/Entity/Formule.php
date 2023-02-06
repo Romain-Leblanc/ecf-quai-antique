@@ -100,4 +100,13 @@ class Formule
 
         return $this;
     }
+
+    /*
+     * Transforme cette entité en "Formule '<titre_formule>'"
+     * Obligatoire pour traduire les champs "associations" d'EasyAdmin
+    */
+    public function __toString(): string
+    {
+        return 'Formule "'.$this->getTitreFormule().'"';
+    }
 }
