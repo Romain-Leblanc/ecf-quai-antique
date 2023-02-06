@@ -2,25 +2,23 @@
 namespace App\Form\Type\Admin;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class NombreConviveFilterType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver)
     {
-        $convives = [];
-        foreach(range(1, 100) as $key) {
-            $convives[$key] = $key;
-        }
-
         $resolver->setDefaults([
-            'choices' => $convives,
+            'attr' => [
+                'min' => 1,
+                'max' => 100
+            ]
         ]);
     }
 
     public function getParent()
     {
-        return ChoiceType::class;
+        return IntegerType::class;
     }
 }

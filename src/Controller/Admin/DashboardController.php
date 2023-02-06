@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Reservation;
+use App\Entity\SeuilConvive;
 use App\Entity\Utilisateur;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -42,6 +43,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToUrl('Revenir au site', 'fa fa-home', '/');
         yield MenuItem::linkToCrud('Administrateurs', 'fas fa-users', Utilisateur::class);
+        yield MenuItem::linkToCrud('Seuil convives', 'fas fa-exclamation-triangle', SeuilConvive::class);
         yield MenuItem::linkToCrud('Réservations', 'fas fa-clipboard-list', Reservation::class);
     }
 }

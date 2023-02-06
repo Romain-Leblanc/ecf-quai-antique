@@ -15,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TimeField;
@@ -72,7 +73,7 @@ class ReservationCrudController extends AbstractCrudController
             yield TextField::new('nom_prenom', 'Nom/prénom')
                 ->setTemplatePath("admin/index_reservation.html.twig")
             ;
-            yield NumberField::new('nombre_couverts', 'Nombre couverts')
+            yield IntegerField::new('nombre_convives', 'Nombre convives')
                 ->setTemplatePath("admin/index_reservation.html.twig")
             ;
         }
@@ -106,7 +107,7 @@ class ReservationCrudController extends AbstractCrudController
             yield TextField::new('email', 'Email :')
                 ->setTemplatePath('admin/detail_reservation.html.twig')
             ;
-            yield NumberField::new('nombre_convives', 'Nombre couverts :')
+            yield IntegerField::new('nombre_convives', 'Nombre convives :')
                 ->setTemplatePath('admin/detail_reservation.html.twig')
             ;
             yield TextField::new('allergie', 'Allergie(s) :')
