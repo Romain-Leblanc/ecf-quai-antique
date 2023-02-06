@@ -1,0 +1,13 @@
+{# Contenu HTML récupéré du fichier 'vendor/easycorp/easyadmin-bundle/src/Resources/views/crud/field/boolean.html.twig' #}
+<div class="form-check form-switch">
+    <input type="checkbox" class="form-check-input" id="{{ field.uniqueId }}"
+    {# Si aucune photo présente, on désactive le bouton radio #}
+           {%
+               if entity.getInstance.getLienPhoto is null
+               or entity.getInstance.getLienPhoto == ""
+               or entity.getInstance.getLienPhoto == false
+           %}disabled{% else %}{{ field.value == true ? 'checked' }}{% endif %}
+           data-toggle-url="{{ field.customOptions.get('toggleUrl') }}"
+            {{ field.formTypeOption('disabled') == true ? 'disabled' }} autocomplete="off">
+    <label class="form-check-label" for="{{ field.uniqueId }}"></label>
+</div>

@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Formule;
 use App\Entity\Menu;
+use App\Entity\Plat;
 use App\Entity\Reservation;
 use App\Entity\SeuilConvive;
 use App\Entity\Utilisateur;
@@ -50,5 +51,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Menus / formules');
         yield MenuItem::linkToCrud('Menus', 'fas fa-clipboard-list', Menu::class);
         yield MenuItem::linkToCrud('Formules', 'fa-solid fa-bell-concierge', Formule::class);
+        yield MenuItem::section('Plats / catégories');
+        yield MenuItem::linkToCrud('Plats', 'fas fa-utensils', Plat::class);
     }
 }

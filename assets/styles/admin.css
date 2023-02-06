@@ -8,3 +8,19 @@
 .content-wrapper span, td > span {
     word-break: break-all;
 }
+.ea-vich-image-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.ea-vich-image-actions div.form-check {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.ea-vich-image-actions input[type="checkbox"] {
+    margin: 0;
+}
+.ea-vich-image-actions label.form-check-label {
+    padding: 0;
+}

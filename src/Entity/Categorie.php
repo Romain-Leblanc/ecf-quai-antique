@@ -72,4 +72,10 @@ class Categorie
 
         return $this;
     }
+
+    /* Retourne le libellé de la catégorie */
+    public function __toString(): string
+    {
+        return $this->getLibelle();
+    }
 }

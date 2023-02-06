@@ -59,6 +59,7 @@ class MenuCrudController extends AbstractCrudController
             ->setPageTitle("new", "Ajouter un menu")
             ->setPageTitle("edit", "Modifier le menu")
             ->setSearchFields(['id', 'titre'])
+            // Définit l'affichage des boutons d'action en ligne
             ->showEntityActionsInlined()
             ->setDefaultSort(['titre_menu' => 'ASC'])
             ;
@@ -68,7 +69,7 @@ class MenuCrudController extends AbstractCrudController
     {
         return $actions
             ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
-                return $action->setLabel("Ajouter un menu");
+                return $action->setLabel("Ajouter");
             })
             ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
             ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
