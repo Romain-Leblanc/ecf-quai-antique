@@ -61,16 +61,16 @@ symfony server:stop
 ```
 ## Ajout d'un compte administrateur
 ##### Pour commencer, il faut accéder à l'interface d'administration avec un compte administrateur.
+##### Ensuite, pour se connecter, il faut se rendre au formulaire de connexion accessible par le menu principal de l'application avec le bouton "Se connecter" et y saisir les informations ci-dessous.
 ###### Image du bouton de connexion
 ![Model](/images_readme/menu_principal_application.PNG)
-##### Ensuite, pour se connecter, il faut se rendre au formulaire de connexion accessible par le menu principal de l'application avec le bouton "Se connecter" et y saisir les informations ci-dessous.
 ###### Image du formulaire de connexion
 ![Model](/images_readme/formulaire_connexion.PNG)
 ###### Informations de connexion du compte administrateur
 > Email : admin@quai-antique.fr<br>
 > Mot de passe : Admin123!
 ##### Après s'être connecté, vous serez redirigé vers cette interface avec la liste des réservations.
-##### Ensuite, il faudra vous rendre à la liste des administrateurs accessible par le menu principal puis par le bouton "Ajouter".
+##### Ensuite, il faudra vous rendre à la liste des administrateurs accessible par le menu principal puis cliquer sur le bouton "Ajouter".
 ###### Image du menu principal de l'interface
 ![Model](/images_readme/menu_principal_admin.PNG)
 ###### Image du bouton "Ajouter"
