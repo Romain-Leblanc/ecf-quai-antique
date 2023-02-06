@@ -94,6 +94,9 @@ class ReservationCrudController extends AbstractCrudController
                 })
             ;
             yield FormField::addPanel('Coordonnées');
+            yield TextField::new('type', 'Type :')
+                ->setTemplatePath('admin/detail_reservation.html.twig')
+            ;
             yield TextField::new('nom', 'Nom :')
                 ->setTemplatePath('admin/detail_reservation.html.twig')
             ;

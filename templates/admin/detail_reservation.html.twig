@@ -2,7 +2,8 @@
 {# Si la réservation appartient à un utilisateur, on affiche ses informations #}
 {% if entite.getFkUtilisateur is not null %}
     {% set personneReservation = entite.getFkUtilisateur %}
-    {% if field.property == "nom" %}{{ personneReservation.getNom }}
+    {% if field.property == "type" %}Client
+    {% elseif field.property == "nom" %}{{ personneReservation.getNom }}
     {% elseif field.property == "prenom" %}{{ personneReservation.getPrenom }}
     {% elseif field.property == "email" %}{{ personneReservation.getEmail }}
     {% elseif field.property == "nombre_convives" %}{{ personneReservation.getNombreConvives }}
@@ -14,7 +15,8 @@
 {% else %}
     {# Sinon on affiche celles du visiteur #}
     {% set personneReservation = entite.getFkVisiteur %}
-    {% if field.property == "nom" %}{{ personneReservation.getNom }}
+    {% if field.property == "type" %}Visiteur
+    {% elseif field.property == "nom" %}{{ personneReservation.getNom }}
     {% elseif field.property == "prenom" %}{{ personneReservation.getPrenom }}
     {% elseif field.property == "email" %}{{ personneReservation.getEmail }}
     {% elseif field.property == "nombre_convives" %}{{ personneReservation.getNombreConvives }}
