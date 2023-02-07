@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Formule;
+use App\Entity\Horaire;
 use App\Entity\Menu;
 use App\Entity\Plat;
 use App\Entity\Reservation;
@@ -45,13 +46,15 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToUrl('Revenir au site', 'fa fa-home', '/');
-        yield MenuItem::linkToCrud('Administrateurs', 'fas fa-users', Utilisateur::class);
-        yield MenuItem::linkToCrud('Seuil convives', 'fas fa-info-circle', SeuilConvive::class);
         yield MenuItem::linkToCrud('Réservations', 'fas fa-ticket', Reservation::class);
+        yield MenuItem::section('Réglages');
+        yield MenuItem::linkToCrud('Administrateurs', 'fas fa-users', Utilisateur::class);
+        yield MenuItem::linkToCrud('Horaires', 'fa-solid fa-clock', Horaire::class);
+        yield MenuItem::linkToCrud('Seuil convives', 'fas fa-info-circle', SeuilConvive::class);
         yield MenuItem::section('Menus / formules');
         yield MenuItem::linkToCrud('Menus', 'fas fa-clipboard-list', Menu::class);
         yield MenuItem::linkToCrud('Formules', 'fa-solid fa-bell-concierge', Formule::class);
-        yield MenuItem::section('Plats / catégories');
+        yield MenuItem::section('Plats / galeries');
         yield MenuItem::linkToCrud('Plats', 'fas fa-utensils', Plat::class);
     }
 }

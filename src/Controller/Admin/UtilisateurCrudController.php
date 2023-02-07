@@ -161,10 +161,8 @@ class UtilisateurCrudController extends AbstractCrudController
     }
 
     /*
-     * Modification de la route de suppression
-     * Vérifie s'il reste au moins un administrateur d'enregistré dans la base de données
-     * et s'il n'est pas l'administrateur actuellement connecté
-     * Tout cela avant la suppression
+     * Ne pouvant pas ajouter une vérification pour la route de modification "delete", je copie son élément parent (parent::delete())
+     * et y rajoute plusieurs vérifications
     */
     public function delete(AdminContext $context)
     {
@@ -201,7 +199,7 @@ class UtilisateurCrudController extends AbstractCrudController
     }
 
     /*
-     * Modification de la route d'édition
+     * Ne pouvant pas ajouter une vérification pour la route de modification "edit", je copie son élément parent (parent::edit())
      * Déconnecte l'utilisateur actuellement connecté s'il s'agit du même que celui modifié
     */
     public function edit(AdminContext $context)

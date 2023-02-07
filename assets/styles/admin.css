@@ -24,3 +24,7 @@
 .ea-vich-image-actions label.form-check-label {
     padding: 0;
 }
+/* Supprime le bouton de suppression de la sélection d'un jour (formule ajout/modification horaire) */
+div.form-widget div.clear-button {
+    display: none !important;
+}

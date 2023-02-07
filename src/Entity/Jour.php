@@ -72,4 +72,10 @@ class Jour
 
         return $this;
     }
+
+    /* Retourne le libellé du jour */
+    public function __toString(): string
+    {
+        return $this->getLibelle();
+    }
 }

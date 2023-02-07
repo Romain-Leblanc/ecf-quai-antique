@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Formule;
 use App\Entity\Plat;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -26,7 +25,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Factory\EntityFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
@@ -56,7 +54,7 @@ class PlatCrudController extends AbstractCrudController
         return $filters
             ->add('id')
             ->add('titre_plat')
-            ->add(EntityFilter::new('fk_categorie', 'Catégorie'))
+            ->add(EntityFilter::new('fk_categorie'))
             ->add('description_plat')
             ->add('prix_plat')
             ->add('afficher_photo')

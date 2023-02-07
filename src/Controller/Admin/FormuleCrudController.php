@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Formule;
-use App\Entity\Menu;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
