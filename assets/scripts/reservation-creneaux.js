@@ -3,10 +3,13 @@ let dateTimeInput = $('#reservation_date');
 let listeCreneaux = $('#reservation_heure');
 let btnSubmit = $('#btn-submit');
 let pNombreCouverts = $('#nombre-couvert');
+let divMessage = $('#message-creneaux');
+let divCreneaux = $('#champ-creneaux');
 
 // Réinitialise les valeurs des champs "date" et des créneaux disponible en cas d'erreur de validation du formulaire
 listeCreneaux.empty();
 dateTimeInput[0].value = "";
+disableSubmitButton();
 
 // Appel des fonctions pour récupérer le nombre de convives encore acceptés pour ce jour
 setInterval(function () { getNombreReservation(dateTimeInput[0].value); }, 1250);
@@ -17,10 +20,6 @@ global.getCreneauFromDate = function getCreneauFromDate(dateTime) {
     if (pNombreCouverts.hasClass("cacher")) {
         pNombreCouverts.removeClass("cacher");
     }
-    // Récupère la <div> qui contient la présence d'un message à l'utilisateur ou non
-    let divMessage = $('#message-creneaux');
-    // Récupère la <div> globale des créneaux
-    let divCreneaux = $('#champ-creneaux');
     // Vide la liste des créneaux de réservation possible
     listeCreneaux.empty();
     // Définit un élement <p> du DOM
@@ -43,6 +42,7 @@ global.getCreneauFromDate = function getCreneauFromDate(dateTime) {
         pMessage.innerText = "Veuillez sélectionner une date.";
         divMessage.append(pMessage);
         divCreneaux.append(divMessage);
+        pNombreCouverts.addClass("cacher");
     }
     else {
         // Transforme la chaine en objet Datetime au format anglais (elle sera traduit dans le contrôleur)
@@ -82,19 +82,20 @@ global.getCreneauFromDate = function getCreneauFromDate(dateTime) {
                             }
                         });
                     });
-                    // Supprime le message et ajoute la liste des créneaux à l'élément du DOM
+                    // Supprime le message, ajoute la liste des créneaux à l'élément du DOM et active le bouton
                     divMessage.remove();
                     listeCreneaux.empty().append(liste);
-                    getNombreReservation(dateTime);
+                    enableSubmitButton();
                 }
                 else {
-                    // Si le tableau est vide, on affiche un message
+                    divMessage.remove();
+                    // Remplace le message actuel par un nouveau, l'ajoute à l'élément du DOM et active le bouton
+                    listeCreneaux.empty();
                     pMessage.innerText = "Aucun créneau de réservation disponible ce jour.";
                     divMessage.append(pMessage);
                     divCreneaux.append(divMessage);
-                    // Vide la liste des créneaux et ajoute le message à l'élément parent du DOM
-                    listeCreneaux.empty();
                     pNombreCouverts.addClass("cacher");
+                    disableSubmitButton();
                 }
             }
         });
@@ -107,18 +108,30 @@ function getNombreReservation(dateTime) {
         url : '/reservation/nombre',
         type: 'POST',
         data : {'dateTime': dateTime},
-        success: function(html) {
-            if (html === 0 || html === false || html === "") {
+        success: function(nombre) {
+            if (nombre === 0 || nombre === "") {
+                console.log("'"+nombre+"'");
                 // Désactive le bouton de validation du formulaire si aucun convive encore accepté
-                // et efface la valeur du nombre de convives encore acceptés
                 disableSubmitButton();
+                // Supprime le message
+                divMessage.empty();
+                // Vide la liste des créneaux
+                listeCreneaux.empty();
                 $('#nombre-couverts-disponible').empty();
+                // Cache le nombre de couverts restants
                 pNombreCouverts.addClass("cacher");
+                let pMessage = document.createElement("p");
+                // Ajoute un message à la place de la liste des créneaux
+                pMessage.innerText = "Aucune nouvelle réservation acceptée ce jour (seuil de convives atteint).";
+                pMessage.className = "fst-italic text-center";
+                divMessage.append(pMessage);
+                divCreneaux.append(divMessage);
             }
             else {
+                // Active le bouton de validation du formulaire
                 enableSubmitButton();
                 // Ajoute la valeur du nombre de convives encore acceptés
-                $('#nombre-couverts-disponible').empty().append(html);
+                $('#nombre-couverts-disponible').empty().append(nombre);
             }
         }
     });
@@ -130,6 +143,6 @@ function disableSubmitButton() {
 }
 
 /* Active le bouton du formulaire */
-global.enableSubmitButton = function enableSubmitButton() {
+function enableSubmitButton() {
     btnSubmit.prop('disabled', false);
 }

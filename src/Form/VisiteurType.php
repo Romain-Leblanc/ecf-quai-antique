@@ -3,10 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Visiteur;
+use App\Validator\NumeroTelephone;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -95,6 +97,24 @@ class VisiteurType extends AbstractType
                     ])
                 ],
                 'required' => true
+            ])
+            ->add('numero_telephone', TelType::class, [
+                'label' => 'N° téléphone :',
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Facultatif'
+                ],
+                'help' => "Doit commencer par un zéro, sans caractères blanc et une longueur de 10 chiffres.",
+                'help_attr' => [
+                    'class' => 'mt-2 mb-0 fst-italic'
+                ],
+                'label_attr' => [
+                    'class' => 'col-md-5 col-form-label'
+                ],
+                'constraints' => [
+                    new NumeroTelephone()
+                ],
+                'required' => false
             ])
             ->add('allergieVisiteurs', CollectionType::class, [
                 'entry_type' => AllergieVisiteurType::class,

@@ -91,6 +91,13 @@
                             {{ form_help(formReservation.fk_visiteur.children.email) }}
                         </div>
                     </div>
+                    <div class="div-responsive label-email mb-3">
+                        {{ form_label(formReservation.fk_visiteur.children.numero_telephone) }}
+                        <div class="col-lg-5 col-md-6 col-sm-8">
+                            {{ form_widget(formReservation.fk_visiteur.children.numero_telephone) }}
+                            {{ form_help(formReservation.fk_visiteur.children.numero_telephone) }}
+                        </div>
+                    </div>
                     <div class="div-responsive mb-3">
                         {{ form_label(formReservation.fk_visiteur.children.allergieVisiteurs) }}
                         <div class="col-lg-5 col-md-6 col-sm-8" id="allergies"

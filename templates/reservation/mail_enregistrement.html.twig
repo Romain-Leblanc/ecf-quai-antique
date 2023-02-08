@@ -9,6 +9,9 @@
 <p>Bonjour {{ personneReservation.getNomComplet }},</p>
 <br>
 <p>Votre réservation pour le {{ reservation.getDate|date('d/m/Y') }} à {{ reservation.getHeure|date('H\\hi') }} pour {{ personneReservation.getNombreConvives }} personnes a bien été enregistrée.</p>
+{% if personneReservation.getNumeroTelephone is not null %}
+    <p>Votre n° de téléphone en cas d'annulation : {{ numeroTelephone(personneReservation.getNumeroTelephone) }}</p>
+{% endif %}
 {# Si la liste des allergies enregistrées n'est pas vide, on l'affiche #}
 {% if allergieCollection is not empty %}
     {% set allergies = 'Voici la liste des allergie(s) enregistrée(s) : ' ~ allergieCollection|map(a => a.getAllergie)|join(', ')|capitalize ~ '.' %}

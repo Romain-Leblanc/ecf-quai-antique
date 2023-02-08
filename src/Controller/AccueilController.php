@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Repository\CategorieRepository;
 use App\Repository\JourRepository;
 use App\Repository\MenuRepository;
 use App\Repository\PlatRepository;

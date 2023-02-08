@@ -4,7 +4,6 @@ namespace App\Twig\Extension;
 
 use Symfony\Component\HttpKernel\KernelInterface;
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class FunctionExtension extends AbstractExtension
@@ -17,9 +16,15 @@ class FunctionExtension extends AbstractExtension
         return [
             new TwigFunction('heureMinute', [$this, 'heureMinute']),
             new TwigFunction('montantEuros', [$this, 'montantEuros']),
+            new TwigFunction('numeroTelephone', [$this, 'numeroTelephone']),
             new TwigFunction('fichierExiste', [$this, 'fichierExiste']),
             new TwigFunction('menuActif', [$this, 'menuActif']),
         ];
+    }
+
+    // Retourne le n° de téléphone avec un point entre chaque paire de chiffres
+    function numeroTelephone(string $numero){
+        return wordwrap($numero, 2, '.', true);
     }
 
     // Retourne l'heure et minutes

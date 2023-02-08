@@ -92,6 +92,7 @@ class ReservationController extends AbstractController
                             $nombreConvivesRestant >= $nombreConvivesReservation
                             && (!is_null($reservation->getFkUtilisateur()) || !is_null($reservation->getFkVisiteur()))
                         ) {
+                            dd("avant enregistrement", $reservation);
                             // Enregistrement de la réservation
                             $entityManager->persist($reservation);
                             $entityManager->flush();
@@ -143,6 +144,7 @@ class ReservationController extends AbstractController
             else {
                 $message = "Merci de sélectionner un créneau";
             }
+
             return $this->render('reservation/index.html.twig', [
                 'errors' => $form->addError(new FormError($message))->getErrors(true),
                 'formReservation' => $form->createView(),

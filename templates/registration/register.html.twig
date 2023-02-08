@@ -86,6 +86,15 @@ les élements <input> de saisie d'une allergie
     </div>
     <div class="row mt-4 justify-content-center align-items-center">
         <div class="col-lg-4 text-center">
+            {{ form_label(formInscription.numero_telephone) }}
+        </div>
+        <div class="col-lg-6 text-center">
+            {{ form_widget(formInscription.numero_telephone) }}
+            {{ form_help(formUtilisateur.numero_telephone) }}
+        </div>
+    </div>
+    <div class="row mt-4 justify-content-center align-items-start">
+        <div class="col-lg-4 text-center">
             {{ form_label(formInscription.allergieUtilisateurs) }}
         </div>
         <div class="col-lg-6 text-center" id="allergies"
@@ -96,11 +105,6 @@ les élements <input> de saisie d'une allergie
             <div id="form-dynamique-contenu"></div>
             <button type="button" id="btn-ajout" class="btn btn-success" data-collection-holder-class="allergies">Ajouter</button>
         </div>
-{#        <div class="col-lg-6 text-center">
-            {{ form_widget(formInscription.allergieUtilisateurs) }}
-            <div id="form-dynamique-contenu"></div>
-            <button type="button" id="btn-ajout" class="btn btn-success" data-collection-holder-class="allergies">Ajouter</button>
-        </div>#}
     </div>
     <div class="w-100 gap-2 mt-4 d-flex justify-content-center align-items-center">
         {{ form_label(formInscription.agreeTerms) }}

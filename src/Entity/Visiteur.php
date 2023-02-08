@@ -33,6 +33,9 @@ class Visiteur
     #[ORM\OneToMany(mappedBy: 'fk_visiteur', targetEntity: AllergieVisiteur::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $allergieVisiteurs;
 
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $numero_telephone = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -156,5 +159,17 @@ class Visiteur
     public function getNomComplet(): ?string
     {
         return mb_strtoupper($this->getNom())." ".ucfirst($this->getPrenom());
+    }
+
+    public function getNumeroTelephone(): ?string
+    {
+        return $this->numero_telephone;
+    }
+
+    public function setNumeroTelephone(?string $numero_telephone): self
+    {
+        $this->numero_telephone = $numero_telephone;
+
+        return $this;
     }
 }

@@ -46,6 +46,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'fk_utilisateur', targetEntity: AllergieUtilisateur::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $allergieUtilisateurs;
 
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $numero_telephone = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -241,5 +244,17 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function getNomComplet(): ?string
     {
         return mb_strtoupper($this->getNom())." ".ucfirst($this->getPrenom());
+    }
+
+    public function getNumeroTelephone(): ?string
+    {
+        return $this->numero_telephone;
+    }
+
+    public function setNumeroTelephone(?string $numero_telephone): self
+    {
+        $this->numero_telephone = $numero_telephone;
+
+        return $this;
     }
 }

@@ -3,10 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Utilisateur;
+use App\Validator\NumeroTelephone;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
@@ -40,6 +41,21 @@ class ModificationProfilType extends AbstractType
                     ])
                 ],
                 'required' => true
+            ])
+            ->add('numero_telephone', TelType::class, [
+                'label' => 'N° téléphone :',
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Facultatif'
+                ],
+                'help' => "Doit commencer par un zéro, sans caractères blanc et une longueur de 10 chiffres.",
+                'label_attr' => [
+                    'class' => 'col-md-5 col-form-label'
+                ],
+                'constraints' => [
+                    new NumeroTelephone()
+                ],
+                'required' => false
             ])
             ->add('allergieUtilisateurs', CollectionType::class, [
                 'entry_type' => AllergieUtilisateurType::class,

@@ -52,8 +52,7 @@ class ReservationType extends AbstractType
                 },
                 'attr' => [
                     'class' => 'bouton-radio d-flex flex-row gap-3 flex-wrap',
-                    'autocomplete' => false,
-                    'onchange' => 'enableSubmitButton()'
+                    'autocomplete' => false
                 ],
                 'placeholder' => 'Aucun créneau de réservation disponible.',
                 'label' => false,
@@ -84,8 +83,7 @@ class ReservationType extends AbstractType
                             },
                             'attr' => [
                                 'class' => 'bouton-radio d-flex flex-row gap-3 flex-wrap',
-                                'autocomplete' => false,
-                                'onchange' => 'enableSubmitButton()',
+                                'autocomplete' => false
                             ],
                             'placeholder' => 'Aucun créneau de réservation disponible.',
                             'label' => false,
