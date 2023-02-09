@@ -31,6 +31,7 @@ class Visiteur
     private Collection $reservations;
 
     #[ORM\OneToMany(mappedBy: 'fk_visiteur', targetEntity: AllergieVisiteur::class, orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OrderBy(['allergie' => 'ASC'])]
     private Collection $allergieVisiteurs;
 
     #[ORM\Column(length: 10, nullable: true)]

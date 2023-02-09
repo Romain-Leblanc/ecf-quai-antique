@@ -44,6 +44,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $reservations;
 
     #[ORM\OneToMany(mappedBy: 'fk_utilisateur', targetEntity: AllergieUtilisateur::class, orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OrderBy(['allergie' => 'ASC'])]
     private Collection $allergieUtilisateurs;
 
     #[ORM\Column(length: 10, nullable: true)]
