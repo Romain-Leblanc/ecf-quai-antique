@@ -63,7 +63,6 @@ global.getCreneauFromDate = function getCreneauFromDate(dateTime) {
             type: 'POST',
             data : {'dateJour': dateJour},
             success: function(html) {
-                console.log(html);
                 let liste = "";
                 let cleTableau = 0;
                 // Si le tableau renvoyé par la requête n'est pas vide
@@ -112,9 +111,7 @@ function getNombreReservation(dateTime) {
         type: 'POST',
         data : {'dateTime': dateTime},
         success: function(nombre) {
-            console.log(nombre);
             if (nombre === 0 || nombre === "") {
-                console.log("'"+nombre+"'");
                 // Désactive le bouton de validation du formulaire si aucun convive encore accepté
                 disableSubmitButton();
                 // Supprime le message

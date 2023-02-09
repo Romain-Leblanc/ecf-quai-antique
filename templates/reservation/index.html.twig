@@ -25,7 +25,9 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('reservation_creneau') }}
-    {{ encore_entry_script_tags('formulaire_dynamique') }}
+    {% if not app.user %}
+        {{ encore_entry_script_tags('formulaire_dynamique') }}
+    {% endif %}
 {% endblock %}
 
 {% block body %}
