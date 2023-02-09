@@ -19,6 +19,7 @@ class Jour
     private ?string $libelle = null;
 
     #[ORM\OneToMany(mappedBy: 'fk_jour', targetEntity: Horaire::class, orphanRemoval: true)]
+    #[ORM\OrderBy(['heure_ouverture' => 'ASC'])]
     private Collection $horaires;
 
     public function __construct()

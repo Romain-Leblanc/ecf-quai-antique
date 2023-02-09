@@ -19,6 +19,7 @@ class Categorie
     private ?string $libelle = null;
 
     #[ORM\OneToMany(mappedBy: 'fk_categorie', targetEntity: Plat::class, orphanRemoval: true)]
+    #[ORM\OrderBy(['titre_plat' => 'ASC'])]
     private Collection $plats;
 
     public function __construct()

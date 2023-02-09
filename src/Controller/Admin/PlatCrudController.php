@@ -71,7 +71,7 @@ class PlatCrudController extends AbstractCrudController
             ->setSearchFields(['id', 'Titre', 'Categorie', 'Prix'])
             // Définit l'affichage des boutons d'action en ligne
             ->showEntityActionsInlined()
-            ->setDefaultSort(['fk_categorie.libelle' => 'ASC'])
+            ->setDefaultSort(['fk_categorie' => 'ASC'])
             ;
     }
 
@@ -226,12 +226,15 @@ class PlatCrudController extends AbstractCrudController
             }
             else {
                 // Si aucun image pour le photo, son état est défini à FAUX par défaut
-                if(is_null($newForm->getData()->getImageFile())) {
+                if(is_null($newForm->getData()->getLienPhoto()) && is_null($newForm->getData()->getImageFile())) {
                     $newForm->getData()->setAfficherPhoto(false);
                 }
-                else {
+                elseif (!is_null($newForm->getData()->getImageFile())) {
                     // Sinon son état est à VRAI par défaut
                     $newForm->getData()->setAfficherPhoto(true);
+                }
+                else {
+                    $newForm->getData()->setAfficherPhoto(false);
                 }
                 // Ajout du plat
                 $this->processUploadedFiles($newForm);
@@ -341,12 +344,15 @@ class PlatCrudController extends AbstractCrudController
             }
             else {
                 // Si aucun image pour le photo (supprimée ou non existante), son état est défini à FAUX par défaut
-                if(is_null($editForm->getData()->getLienPhoto())) {
+                if(is_null($editForm->getData()->getLienPhoto()) && is_null($editForm->getData()->getImageFile())) {
                     $editForm->getData()->setAfficherPhoto(false);
                 }
-                else {
+                elseif (!is_null($editForm->getData()->getImageFile())) {
                     // Sinon son état est à VRAI par défaut
                     $editForm->getData()->setAfficherPhoto(true);
+                }
+                else {
+                    $editForm->getData()->setAfficherPhoto(false);
                 }
                 // Modification du plat
                 $this->processUploadedFiles($editForm);

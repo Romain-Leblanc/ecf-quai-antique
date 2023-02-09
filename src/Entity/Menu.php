@@ -19,6 +19,7 @@ class Menu
     private ?string $titre_menu = null;
 
     #[ORM\ManyToMany(targetEntity: Formule::class, inversedBy: 'menus')]
+    #[ORM\OrderBy(['titre_formule' => 'ASC'])]
     private Collection $formules;
 
     public function __construct()

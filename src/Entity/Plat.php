@@ -42,6 +42,15 @@ class Plat
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $updatedAt = null;
 
+    /*
+    * Obligatoire pour initialiser l'attribut ci-dessus,
+    * (sinon si aucune image ajoutée ou modifiée, sa valeur est à "NULL" et provoque une erreur)
+     */
+    public function __construct()
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
      * of 'UploadedFile' is injected into this setter to trigger the update. If this

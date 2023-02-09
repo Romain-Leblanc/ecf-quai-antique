@@ -158,7 +158,6 @@ class MenuCrudController extends AbstractCrudController
             if (!is_null($menuExistant))
             {
                 $newForm->addError(new FormError("Ce titre de menu existe déjà."))->getErrors(true);
-
                 return $this->configureResponseParameters(KeyValueStore::new([
                     'pageName' => Crud::PAGE_NEW,
                     'templateName' => 'crud/new',

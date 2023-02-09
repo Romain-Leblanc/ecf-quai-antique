@@ -18,8 +18,8 @@ class AccueilController extends AbstractController
     }
 
     public function galerie(PlatRepository $platRepository): Response {
-        // Récupère la liste des plats possédant une photo voulant être affichée
-        $galerie = $platRepository->findBy(['afficher_photo' => true]);
+        // Récupère la liste des plats possédant une photo voulant être affichée triés par catégorie
+        $galerie = $platRepository->findBy(['afficher_photo' => true], ['fk_categorie' => 'ASC']);
         return $this->render('accueil/galerie.html.twig', ['galerie' => $galerie]);
     }
 

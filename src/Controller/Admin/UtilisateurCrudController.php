@@ -12,14 +12,31 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Option\EA;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Event\AfterCrudActionEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityPersistedEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityUpdatedEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeCrudActionEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Exception\ForbiddenActionException;
+use EasyCorp\Bundle\EasyAdminBundle\Exception\InsufficientEntityPermissionException;
+use EasyCorp\Bundle\EasyAdminBundle\Factory\EntityFactory;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use EasyCorp\Bundle\EasyAdminBundle\Security\Permission;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -97,7 +114,18 @@ class UtilisateurCrudController extends AbstractCrudController
             ->setFormTypeOptions([
                 'attr' => [
                     'placeholder' => 'Saisie du nouveau mot de passe'
-                ]
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Le champ \'Mot de passe\' ne peut pas contenir que des caractères blancs.'
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Votre mot de passe doit comporter au moins {{ limit }} caractères.',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 4096,
+                    ]),
+                ],
             ])
             ->setRequired(true)
         ;
@@ -158,6 +186,201 @@ class UtilisateurCrudController extends AbstractCrudController
         return $queryBuilder->where('entity.roles LIKE :role')->setParameter(':role', '%ROLE_ADMIN%');
     }
 
+    public function new(AdminContext $context)
+    {
+        $event = new BeforeCrudActionEvent($context);
+        $this->container->get('event_dispatcher')->dispatch($event);
+        if ($event->isPropagationStopped()) {
+            return $event->getResponse();
+        }
+
+        if (!$this->isGranted(Permission::EA_EXECUTE_ACTION, ['action' => Action::NEW, 'entity' => null])) {
+            throw new ForbiddenActionException($context);
+        }
+
+        if (!$context->getEntity()->isAccessible()) {
+            throw new InsufficientEntityPermissionException($context);
+        }
+
+        $context->getEntity()->setInstance($this->createEntity($context->getEntity()->getFqcn()));
+        $this->container->get(EntityFactory::class)->processFields($context->getEntity(), FieldCollection::new($this->configureFields(Crud::PAGE_NEW)));
+        $context->getCrud()->setFieldAssets($this->getFieldAssets($context->getEntity()->getFields()));
+        $this->container->get(EntityFactory::class)->processActions($context->getEntity(), $context->getCrud()->getActionsConfig());
+
+        $newForm = $this->createNewForm($context->getEntity(), $context->getCrud()->getNewFormOptions(), $context);
+        $newForm->handleRequest($context->getRequest());
+
+        $entityInstance = $newForm->getData();
+        $context->getEntity()->setInstance($entityInstance);
+
+        if ($newForm->isSubmitted() && $newForm->isValid()) {
+            // Si le mot de passe ne contient que des caractères blancs, on génère une erreur
+            if (trim($newForm->getData()->getPassword()) === "") {
+                $newForm->addError(new FormError("Le champ 'Mot de passe' ne peut pas contenir que des caractères blancs."))->getErrors(true);
+                return $this->configureResponseParameters(KeyValueStore::new([
+                    'pageName' => Crud::PAGE_NEW,
+                    'templateName' => 'crud/new',
+                    'entity' => $context->getEntity(),
+                    'new_form' => $newForm,
+                ]));
+            }
+            else {
+                // Valeur par défaut
+                $newForm->getData()->setRoles(['ROLE_ADMIN']);
+                $newForm->getData()->setNombreConvives(1);
+                // Enregistrement du nouveau administrateur
+                $this->processUploadedFiles($newForm);
+
+                $event = new BeforeEntityPersistedEvent($entityInstance);
+                $this->container->get('event_dispatcher')->dispatch($event);
+                $entityInstance = $event->getEntityInstance();
+
+                $this->persistEntity($this->container->get('doctrine')->getManagerForClass($context->getEntity()->getFqcn()), $entityInstance);
+
+                $this->container->get('event_dispatcher')->dispatch(new AfterEntityPersistedEvent($entityInstance));
+                $context->getEntity()->setInstance($entityInstance);
+
+                return $this->getRedirectResponseAfterSave($context, Action::NEW);
+            }
+        }
+
+        $responseParameters = $this->configureResponseParameters(KeyValueStore::new([
+            'pageName' => Crud::PAGE_NEW,
+            'templateName' => 'crud/new',
+            'entity' => $context->getEntity(),
+            'new_form' => $newForm,
+        ]));
+
+        $event = new AfterCrudActionEvent($context, $responseParameters);
+        $this->container->get('event_dispatcher')->dispatch($event);
+        if ($event->isPropagationStopped()) {
+            return $event->getResponse();
+        }
+
+        return $responseParameters;
+    }
+
+    /*
+     * Ne pouvant pas ajouter une vérification pour la route de modification "edit", je copie son élément parent (parent::edit())
+     * Déconnecte l'utilisateur actuellement connecté s'il s'agit du même que celui modifié
+     * Et que le mot de passe ne contient pas que des caractères blancs
+    */
+    public function edit(AdminContext $context)
+    {
+        $event = new BeforeCrudActionEvent($context);
+        $this->container->get('event_dispatcher')->dispatch($event);
+        if ($event->isPropagationStopped()) {
+            return $event->getResponse();
+        }
+
+        if (!$this->isGranted(Permission::EA_EXECUTE_ACTION, ['action' => Action::EDIT, 'entity' => $context->getEntity()])) {
+            throw new ForbiddenActionException($context);
+        }
+
+        if (!$context->getEntity()->isAccessible()) {
+            throw new InsufficientEntityPermissionException($context);
+        }
+
+        $this->container->get(EntityFactory::class)->processFields($context->getEntity(), FieldCollection::new($this->configureFields(Crud::PAGE_EDIT)));
+        $context->getCrud()->setFieldAssets($this->getFieldAssets($context->getEntity()->getFields()));
+        $this->container->get(EntityFactory::class)->processActions($context->getEntity(), $context->getCrud()->getActionsConfig());
+        $entityInstance = $context->getEntity()->getInstance();
+
+        if ($context->getRequest()->isXmlHttpRequest()) {
+            if ('PATCH' !== $context->getRequest()->getMethod()) {
+                throw new MethodNotAllowedHttpException(['PATCH']);
+            }
+
+            if (!$this->isCsrfTokenValid(BooleanField::CSRF_TOKEN_NAME, $context->getRequest()->query->get('csrfToken'))) {
+                if (class_exists(InvalidCsrfTokenException::class)) {
+                    throw new InvalidCsrfTokenException();
+                } else {
+                    return new Response('Invalid CSRF token.', 400);
+                }
+            }
+
+            $fieldName = $context->getRequest()->query->get('fieldName');
+            $newValue = 'true' === mb_strtolower($context->getRequest()->query->get('newValue'));
+
+            try {
+                $event = $this->ajaxEdit($context->getEntity(), $fieldName, $newValue);
+            } catch (\Exception) {
+                throw new BadRequestHttpException();
+            }
+
+            if ($event->isPropagationStopped()) {
+                return $event->getResponse();
+            }
+
+            return new Response($newValue ? '1' : '0');
+        }
+
+        $editForm = $this->createEditForm($context->getEntity(), $context->getCrud()->getEditFormOptions(), $context);
+        $editForm->handleRequest($context->getRequest());
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            // Si le mot de passe ne contient que des caractères blancs, on génère une erreur
+            if (trim($editForm->getData()->getPassword()) === "") {
+                $editForm->addError(new FormError("Le champ 'Mot de passe' ne peut pas contenir que des caractères blancs."))->getErrors(true);
+                return $this->configureResponseParameters(KeyValueStore::new([
+                    'pageName' => Crud::PAGE_EDIT,
+                    'templateName' => 'crud/edit',
+                    'edit_form' => $editForm,
+                    'entity' => $context->getEntity(),
+                ]));
+            }
+            else {
+                // Si celui connecté est celui qui va être modifié, on réinitialise la session actuelle
+                if ($this->getUser()->getId() === $editForm->getData()->getId()) {
+                    // Réinitialise la session utilisateur
+                    $this->container->get('security.token_storage')->setToken(null);
+                    // Enregistrement des modifications
+                    $this->processUploadedFiles($editForm);
+
+                    $event = new BeforeEntityUpdatedEvent($entityInstance);
+                    $this->container->get('event_dispatcher')->dispatch($event);
+                    $entityInstance = $event->getEntityInstance();
+
+                    $this->updateEntity($this->container->get('doctrine')->getManagerForClass($context->getEntity()->getFqcn()), $entityInstance);
+
+                    $this->container->get('event_dispatcher')->dispatch(new AfterEntityUpdatedEvent($entityInstance));
+
+                    // Force l'utilisateur à se reconnecter
+                    return $this->redirectToRoute('app_deconnexion');
+                }
+                else {
+                    // Enregistrement des modifications
+                    $this->processUploadedFiles($editForm);
+
+                    $event = new BeforeEntityUpdatedEvent($entityInstance);
+                    $this->container->get('event_dispatcher')->dispatch($event);
+                    $entityInstance = $event->getEntityInstance();
+
+                    $this->updateEntity($this->container->get('doctrine')->getManagerForClass($context->getEntity()->getFqcn()), $entityInstance);
+
+                    $this->container->get('event_dispatcher')->dispatch(new AfterEntityUpdatedEvent($entityInstance));
+
+                    // Sinon on redirige vers le tableau principal
+                    return $this->getRedirectResponseAfterSave($context, Action::EDIT);
+                }
+            }
+        }
+
+        $responseParameters = $this->configureResponseParameters(KeyValueStore::new([
+            'pageName' => Crud::PAGE_EDIT,
+            'templateName' => 'crud/edit',
+            'edit_form' => $editForm,
+            'entity' => $context->getEntity(),
+        ]));
+
+        $event = new AfterCrudActionEvent($context, $responseParameters);
+        $this->container->get('event_dispatcher')->dispatch($event);
+        if ($event->isPropagationStopped()) {
+            return $event->getResponse();
+        }
+
+        return $responseParameters;
+    }
+
     /*
      * Ne pouvant pas ajouter une vérification pour la route de modification "delete", je copie son élément parent (parent::delete())
      * et y rajoute plusieurs vérifications
@@ -193,30 +416,6 @@ class UtilisateurCrudController extends AbstractCrudController
         }
         else {
             return parent::delete($context); // TODO: Change the autogenerated stub
-        }
-    }
-
-    /*
-     * Ne pouvant pas ajouter une vérification pour la route de modification "edit", je copie son élément parent (parent::edit())
-     * Déconnecte l'utilisateur actuellement connecté s'il s'agit du même que celui modifié
-    */
-    public function edit(AdminContext $context)
-    {
-        // Récupère l'identifiant de l'utilisateur qui va être modifié
-        $idUtilisateur = (int) $context->getRequest()->get('entityId');
-        // Si celui connecté est celui qui va être modifié,
-        // on réinitialise la session actuelle, le modifie et le redirige vers la page d'accueil
-        if (
-            $this->getUser()->getId() === $idUtilisateur
-            && !is_null($context->getRequest()->request->get('Utilisateur'))
-        ) {
-            // Réinitialise la session utilisateur
-            $this->container->get('security.token_storage')->setToken(null);
-            parent::edit($context);
-            return $this->redirectToRoute('app_deconnexion');
-        }
-        else {
-            return parent::edit($context); // TODO: Change the autogenerated stub
         }
     }
 }
