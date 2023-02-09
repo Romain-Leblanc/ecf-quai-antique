@@ -84,13 +84,13 @@ les élements <input> de saisie d'une allergie
             {{ form_widget(formInscription.nombre_convives) }}
         </div>
     </div>
-    <div class="row mt-4 justify-content-center align-items-center">
+    <div class="row mt-4 justify-content-center align-items-start">
         <div class="col-lg-4 text-center">
             {{ form_label(formInscription.numero_telephone) }}
         </div>
         <div class="col-lg-6 text-center">
             {{ form_widget(formInscription.numero_telephone) }}
-            {{ form_help(formUtilisateur.numero_telephone) }}
+            {{ form_help(formInscription.numero_telephone) }}
         </div>
     </div>
     <div class="row mt-4 justify-content-center align-items-start">
