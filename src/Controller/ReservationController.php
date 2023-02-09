@@ -92,7 +92,6 @@ class ReservationController extends AbstractController
                             $nombreConvivesRestant >= $nombreConvivesReservation
                             && (!is_null($reservation->getFkUtilisateur()) || !is_null($reservation->getFkVisiteur()))
                         ) {
-                            dd("avant enregistrement", $reservation);
                             // Enregistrement de la réservation
                             $entityManager->persist($reservation);
                             $entityManager->flush();
@@ -120,17 +119,18 @@ class ReservationController extends AbstractController
                             ;
 
                             try {
-                                // Envoi du mail puis affichage confirmation réservation
+                                // Envoi du mail puis affichage message confirmation réservation avec envoi mail
                                 $mailer->send($email);
-                                $this->addFlash('reservation', 'Votre réservation a été bien enregistrée. Un mail de confirmation vous a été envoyé également.');
+                                $this->addFlash('reservation_mail_success', 'Votre réservation a été bien enregistrée. Un mail de confirmation vous a été envoyé également.');
                             } catch (\Exception $t) {
-                                return new Response($t->getMessage());
+                                // Affichage message confirmation réservation avec erreur envoi mail
+                                $this->addFlash('reservation_mail_error', "Votre réservation a été bien enregistrée. L'envoi du mail de confirmation a cependant échouée.");
                             }
 
                             return $this->redirectToRoute('restaurant_accueil');
                         }
                         else {
-                            $message = "Le nombre de convives pour votre réservation dépasse le seuil de convives";
+                            $message = "Le nombre de convives de votre réservation dépasse le seuil de convives autorisé";
                         }
                     }
                     else {

@@ -23,18 +23,22 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
+        // Redirige cette route vers celle contenant la liste des réservations
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
         return $this->redirect($adminUrlGenerator->setController(ReservationCrudController::class)->generateUrl());
     }
 
+    /* Configuration principale du dashboard d'EasyAmin */
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
+            ->setFaviconPath('images/icone-quai-antique.ico')
             ->disableDarkMode()
             ->setTitle('<img src="images/logo.png" class="logo-admin" alt="logo"/><br><h5 class="py-2 fst-italic text-center text-danger border-bottom">Administration</h5>')
             ;
     }
 
+    /* Configuration du menu de l'administrateur connecté */
     public function configureUserMenu(UserInterface $user): UserMenu
     {
         return parent::configureUserMenu($user)
@@ -43,6 +47,7 @@ class DashboardController extends AbstractDashboardController
             ;
     }
 
+    /* Configuration des éléments du menu principal d'EasyAdmin */
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToUrl('Revenir au site', 'fa fa-home', '/');

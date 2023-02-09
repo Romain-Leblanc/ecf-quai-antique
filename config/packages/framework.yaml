@@ -9,6 +9,8 @@ framework:
     session:
         handler_id: null
         cookie_secure: auto
+        # Supprime la session utilisateur à la fermeture du navigateur
+        cookie_lifetime: 0
         cookie_samesite: lax
         storage_factory_id: session.storage.factory.native
 
