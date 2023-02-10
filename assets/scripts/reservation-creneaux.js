@@ -38,7 +38,7 @@ global.getCreneauFromDate = function getCreneauFromDate(dateTime) {
     }
 
     // Si aucune valeur sélectionnée pour le champ "date" pour la réservation, on affiche un message
-    if (dateTime === "") {
+    if (dateTime === "" || dateTime === false || dateTime === undefined) {
         pMessage.innerText = "Veuillez sélectionner une date.";
         divMessage.append(pMessage);
         divCreneaux.append(divMessage);
@@ -133,6 +133,10 @@ function getNombreReservation(dateTime) {
                 enableSubmitButton();
                 // Ajoute la valeur du nombre de convives encore acceptés
                 $('#nombre-couverts-disponible').empty().append(nombre);
+            }
+            else if(nombre === false) {
+                // Désactive le bouton de validation du formulaire si aucun date sélectionnée
+                disableSubmitButton();
             }
         }
     });
